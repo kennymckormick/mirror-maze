@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A first-person mirror-maze navigation experiment: 44 model runs, interactive trajectories, and a closer look at what planning metrics reward.">
+  <meta name="author" content="Kenny">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Can AI find its way through a maze of mirrors?">
+  <meta name="twitter:image" content="assets/social-card.png">
+  <meta property="og:title" content="Mirror Maze — Can AI find its way through mirrors?">
+  <meta property="og:description" content="Three actions. Reflective walls. A record of every decision. Explore the runs and the limits of the metric.">
+  <meta property="og:image" content="assets/social-card.png">
+  <title>Mirror Maze — Can AI find its way through mirrors?</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+</head>
+<body id="top">
+<a class="skip" href="#overview">Skip to the article</a>
+<header class="masthead"><a class="wordmark" href="#top"><svg viewBox="0 0 28 28" aria-hidden="true"><path d="M3 4h9v20H3zM16 4h9v20h-9zM7 8l1 12M20 8l1 12"/></svg>Mirror Maze</a><nav><a href="#run-explorer">Explore the runs <span aria-hidden="true">↗</span></a><a href="play/">Try the maze</a></nav></header>
+<main>
+  <section class="hero" aria-labelledby="project-title">
+    <p class="kicker">A navigation experiment</p>
+    <h1 id="project-title">Can AI find its way<br>through a maze of <span class="mirror-word">mirrors?</span></h1>
+    <p class="author">Kenny</p>
+    <p class="deck">An interactive experiment in perception, spatial memory, and planning.</p>
+    <div class="resources" aria-label="Project resources"><a href="play/">Play the maze <span>↗</span></a><a href="#run-explorer">Runs &amp; videos</a><a href="https://github.com/kennymckormick/mirror-maze" target="_blank" rel="noopener">Code <small>private</small></a><a href="#protocol">Evaluation protocol</a></div>
+    <p class="scope-line">40 easy-maze runs · 4 medium-maze runs · 7,907 independently replayed decisions</p>
+  </section>
+
+  <figure class="hero-experiment wide" id="mirror-puzzle">
+    <div class="figure-toolbar"><span class="figure-label">A small perception puzzle</span><div class="segmented" role="group" aria-label="Choose a recorded view"><button id="view-a" aria-pressed="true">View A</button><button id="view-b" aria-pressed="false">View B</button></div></div>
+    <div class="puzzle-views"><div class="puzzle-image"><img id="hero-observation" width="1280" height="720" alt="Recorded first-person view inside a mirror maze"><span class="image-tag">The model's view</span></div><div id="hero-map-wrap" class="puzzle-map" hidden><div id="hero-map" aria-label="Ground-truth local geometry"></div><span class="image-tag">For the reader only</span></div></div>
+    <div class="puzzle-question"><p>Is the corridor directly ahead physically open?</p><div><button class="quiet-button" id="guess-open">I think it is open</button><button class="quiet-button" id="guess-mirror">I think it is a mirror</button><button class="link-button" id="reveal-geometry" aria-expanded="false">Reveal the geometry</button></div><p id="puzzle-answer" class="puzzle-answer" aria-live="polite">These are two recorded orientations at the same cell. The answer comes from the maze geometry.</p></div>
+    <figcaption>Walls are mirrors; the floor and ceiling are matte. Repeated corridors, robots, and green goal markers may be reflections. The tested models never receive the review map.</figcaption>
+  </figure>
+
+  <nav class="contents prose" aria-label="Table of contents"><ol>
+    <li><a href="#overview">What is a mirror maze?</a></li><li><a href="#protocol">Three actions, a long memory</a></li><li><a href="#results">The first forty runs</a></li><li><a href="#astra">Making the maze larger</a></li><li><a href="#exploration">Why can a cautious agent still get stuck?</a></li><li><a href="#harness">The same model, a different conversation</a></li><li><a href="#metric">What does one planning decision measure?</a></li><li><a href="#outlook">What should we test next?</a></li>
+  </ol></nav>
+
+  <article>
+  <section class="prose article-section" id="overview"><h2><span class="section-number">1</span> What is a mirror maze?</h2>
+    <p>A maze is a simple setting in which to ask a difficult question: can a model turn a stream of images into a usable account of where it is, what it has already tried, and what to do next?</p>
+    <p>Mirror walls make the distinction between <em>seeing a route</em> and <em>having a route</em> unusually concrete. A passage can continue visually through a closed wall. A green goal can be visible in a reflection. A robot can appear in several places at once. To finish, the agent must enter the actual goal cell.</p>
+    <p>I built a small environment around this idea. It supports triangular, square, and hexagonal tilings, with square outer boundaries for square grids and hexagonal boundaries for the other two. The recorded model evaluations use square and hexagonal cells. The robot's orange front, blue back, and head arrow provide orientation cues.</p>
+    <p>The environment is also <a href="play/">playable in the browser</a>. Start with the review map hidden, then reveal it when you want to inspect a mistake. This page uses real recorded observations and trajectories throughout.</p>
+  </section>
+
+  <section class="prose article-section" id="protocol"><h2><span class="section-number">2</span> Three actions, a long memory</h2>
+    <p>The action space is deliberately small: <code>left</code>, <code>right</code>, and <code>forward</code>. A turn is 90° on square grids and 60° on hexagonal grids. A forward action attempts to move to the adjacent cell center while preserving heading.</p>
+    <div class="action-diagram" aria-label="Three legal actions"><div><span>↶</span><code>left</code><small>Rotate one direction</small></div><div><span>↑</span><code>forward</code><small>Attempt one cell</small></div><div><span>↷</span><code>right</code><small>Rotate one direction</small></div></div>
+    <p>A model submits a JSON action sequence. <strong>One submitted sequence is one planning decision</strong>, even when it contains many motor actions. The next turn receives the images after every attempted action, including rotations and collisions. The priority is to reach the goal in fewer planning decisions, then incur fewer collisions.</p>
+    <pre class="code-example"><code>{"plan": "Follow the open corridor, then inspect the junction.",
+ "actions": ["forward", "forward", "right"]}</code></pre>
+    <p>All inference observations are lossless <strong>1280 × 720 PNGs</strong>, with up to 10 reflections. There is no minimap, coordinate feed, shortest-path tool, or executable preview for the model. The model returns a public, brief action intention; private reasoning is not shown in the replays.</p>
+    <details class="method-note"><summary>Execution, context, and timeout details</summary><div><p>A legal sequence continues after a collision and stops when the actual goal is reached. An illegal sequence is rejected atomically, consumes one planning decision, and incurs one collision penalty.</p><p>The harness supplies the current action batch's images and retains conversation text. Images from earlier observation rounds are removed when preparing subsequent requests. If size or context limits are hit, the oldest image-containing round is removed first, retaining the latest current-state view. Text feedback remains. All deliveries and pruning are logged; the Astra extension required no image pruning.</p><p>The single-decision deadline is 3,600 seconds, including internal transport retries. A network retry does not execute another action or consume another planning decision. Interrupted runs resume their original conversation and physical state. Every committed planning decision was independently replayed against the canonical environment, and original input-image hashes were checked.</p><p>The direct API baseline maintains public user/assistant text. It does not replay opaque encrypted reasoning items. Native clients retain their own prompts and session management. These configurations are observational comparisons, with differences beyond the model name.</p></div></details>
+  </section>
+
+  <section class="prose article-section" id="results"><h2><span class="section-number">3</span> The first forty runs</h2>
+    <p>The first study uses four fixed easy mazes: square and hexagonal grids, each with seeds <code>MIRROR-042</code> and <code>MIRROR-043</code>. Side length is 7: 49 square cells or 127 hexagonal cells. Each run has a 200-decision cap.</p>
+    <p>Five models were tested with their configured native clients and with a direct API baseline, giving 40 completed runs. Native-client configurations solved <strong>7/20</strong>; direct API configurations solved <strong>6/20</strong>. The table shows the full four-case denominator rather than a precision that four cases cannot support.</p>
+  </section>
+  <figure class="wide results-figure"><div class="table-scroll"><table id="model-results"><caption>Easy mazes · four fixed cases per model and configuration</caption><thead><tr><th scope="col">Model</th><th scope="col">Native client</th><th scope="col">Native solved</th><th scope="col">Direct API solved</th></tr></thead><tbody></tbody></table></div><figcaption>Each dot opens one recorded run. Filled dots denote success; outlined dots denote the planning cap. GPT-6.1 Sol uses Codex; Gemini 4 Argon uses Antigravity CLI at Medium; the other models use Claude Code. Defaults, prompts, and conversation-state handling are not compute-matched.</figcaption><p class="source-note">* DeepSeek used an alternative <code>DeepSeek-V4.1-Flash</code> source. Its correspondence to the requested 1017 snapshot was not independently verified. Exact aliases and reported IDs are retained in the downloadable evidence.</p></figure>
+  <div class="prose"><p>There is a visible square/hex contrast, but it combines several factors. At the same side length, the hex maze has <strong>2.59× as many cells</strong>, more possible headings, and a different generated layout. This study does not isolate a causal effect of tiling geometry or of mirrors.</p></div>
+
+  <figure class="wide video-figure"><video controls preload="metadata" poster="assets/poster.png" src="videos/mirror-maze-teaser-48s.mp4" aria-label="48-second English overview of the mirror-maze experiment"></video><figcaption>A short introduction using square <code>MIRROR-043</code>. It is an edited example, selected for visual readability. Full per-case films are available below.</figcaption></figure>
+
+  <section class="prose article-section" id="astra"><h2><span class="section-number">4</span> Making the maze larger</h2>
+    <p>I then tested <strong>GPT-6 Astra with Codex</strong> on the same two seeds at medium side length 11, with up to 500 decisions. These maps contain 121 square cells or 331 hexagonal cells. The observed Codex request settings were <code>reasoning.effort=low</code> and <code>context=all_turns</code>, matching the native default configuration used for the earlier Sol runs.</p>
+    <p>Astra solved three of four maps. Its successful hex run needed more motor actions than its failed hex run, despite using fewer than half as many planning decisions. This is one reason to inspect the trajectories alongside the completion count.</p>
+    <div class="table-scroll"><table><caption>GPT-6 Astra + Codex · medium mazes · 500-decision cap</caption><thead><tr><th>Maze</th><th>Outcome</th><th>Decisions</th><th>Actions</th><th>Collisions</th></tr></thead><tbody><tr><th>Square · 042</th><td>Success</td><td>147</td><td>657</td><td>26</td></tr><tr><th>Square · 043</th><td>Success</td><td>85</td><td>211</td><td>1</td></tr><tr><th>Hexagon · 042</th><td>Success</td><td>246</td><td>1,685</td><td>3</td></tr><tr><th>Hexagon · 043</th><td>Decision cap</td><td>500</td><td>1,078</td><td>38</td></tr></tbody></table></div>
+    <p class="small-note">These four runs are reported separately from the easy study because both map size and planning budget changed. All 978 decisions in the extension passed independent replay checks; there were no unresolved integration errors.</p>
+  </section>
+
+  <section class="prose article-section" id="exploration"><h2><span class="section-number">5</span> Why can a cautious agent still get stuck?</h2>
+    <p>The failed medium hex run did not spend most of its budget hitting walls. It had <strong>zero collisions through decision 499</strong>. All 38 collisions came from the final 89-action sequence. It nevertheless stopped at the cap having visited only 206 of 331 cells.</p>
+    <p>During decisions 121–161, it added no new cell at all, staying at 38 visited cells for 41 consecutive decisions. Across the full run, 289 of its 500 sequences contained only rotations. The successful medium hex run had 24 such sequences in 246 decisions. These are descriptions of the action record, not observations of the model's hidden reasoning.</p>
+  </section>
+  <figure class="wide chart-figure"><div class="figure-toolbar"><span class="figure-label">Exploration coverage</span><label class="select-label">Comparison <select id="coverage-view"><option value="astra">GPT-6 Astra · medium hexagons</option><option value="seed">Seed 2.1 Pro · easy API</option><option value="gpt">GPT-6.1 Sol · square 043</option></select></label></div><div id="coverage-chart" class="chart" role="img" aria-label="Visited-cell coverage over planning decisions"></div><p id="coverage-readout" class="chart-readout" aria-live="polite"></p><figcaption id="coverage-caption">Each curve ends at the recorded run's termination. The shaded region marks a plateau; coverage is normalized by the map's cell count.</figcaption><a class="figure-download" href="figures/coverage.png" download>Download the figure</a></figure>
+  <div class="prose"><p>A similar pattern appears in a smaller setting. The Seed 2.1 Pro direct-API run on easy hex <code>MIRROR-043</code> visited four of 127 cells, then discovered no new cell for decisions 5–200. A low collision count, a valid action sequence, and continued activity can all coexist with little exploration progress.</p><p>The two Astra hex mazes also warn against treating shortest-path length as a complete difficulty measure. The failed case has a shorter known-map optimum: 479 actions versus 500 in the successful case. Layout, sensing, and the order of exploration still matter.</p></div>
+
+  <section class="prose article-section" id="harness"><h2><span class="section-number">6</span> The same model, a different conversation</h2>
+    <p>GPT-6.1 Sol solved all four easy mazes with Codex, compared with one of four in the direct-API public-text-history baseline. On square <code>MIRROR-043</code>, Codex reached the goal at decision 49. The API run remained at 14 visited cells from decisions 26 through 170.</p>
+    <p>The action traces are consistent with a difference in maintaining and extending an exploration state. Implementation inspection also found a concrete difference: the API client keeps public text, whereas Codex carries native conversation state, including opaque reasoning items. The prompts and default settings differ too. The experiment therefore does not identify the individual causal contribution of reasoning-state retention.</p>
+  </section>
+  <figure class="wide pair-figure"><div class="figure-toolbar"><span class="figure-label">GPT-6.1 Sol · easy square · MIRROR-043</span><label>Decision <input type="range" id="pair-round" min="0" max="200" value="49"><output id="pair-round-label">49 / 200</output></label></div><div id="pair-replay" class="pair-grid"></div><figcaption>Aligned by planning decision, not inference time. A completed run holds its terminal state while the other continues. The maps are only for the reader.</figcaption></figure>
+  <div class="prose"><p>Aggregate collision totals can obscure this distinction. In the Sol API cohort, <strong>966 of 1,036 collisions (93.2%)</strong> occurred in the final decision of the three capped runs. That statistic is heavily influenced by end-of-budget action sequences, so it should not be read as a standalone measure of visual perception.</p></div>
+
+  <section class="prose article-section" id="metric"><h2><span class="section-number">7</span> What does one planning decision measure?</h2>
+    <p>The original interface allows an unlimited number of actions in one plan. That is convenient for known-path backtracking, but it also creates a tradeoff: an agent can exchange fewer planning decisions for much more physical execution.</p>
+    <p>This tradeoff is visible in the recorded model runs too. <a href="#run-explorer" data-episode="harness/deepseek-hex-MIRROR-042">One capped DeepSeek-V4.1-Flash native-client run</a> on easy hexagon 042 executed <strong>61,169 actions in 200 decisions</strong>, with 21,971 collisions, while visiting 34 of 127 cells. It used the alternative source noted above.</p>
+    <p>To make that concrete, I added an offline protocol stress test. A program generates a pseudorandom sequence of <code>left</code>, <code>right</code>, and <code>forward</code> without reading an image, a wall, a position, or a goal. It submits the sequence as <strong>one decision</strong>. The host stops it if it happens to reach the actual goal.</p>
+    <p>The protocol fixes 500 action-sequence seeds, <code>20261104–20261603</code>, before running the simulation. Each sequence is reused across all eight easy and medium maps. The action limits are 1,000, 10,000, and 100,000. Canonical-rule replays verify representative prefixes and terminal states.</p>
+  </section>
+  <figure class="wide chart-figure"><div class="figure-toolbar"><span class="figure-label">A state-blind, one-decision policy</span><label class="select-label">Maps <select id="stress-difficulty"><option value="easy">Easy · original four maps</option><option value="medium">Medium · four larger maps</option></select></label></div><div id="stress-chart" class="chart" role="img" aria-label="Blind-policy solve fractions under different motor-action limits"></div><div class="stress-controls"><label>Motor-action limit <select id="stress-budget"><option value="1000">1,000</option><option value="10000">10,000</option><option value="100000" selected>100,000</option></select></label><p id="stress-readout"></p></div><figcaption>500 fixed-seed sequences per map. This is a code-policy stress test, not a model or human result. Token, time, rendering, and compute budgets are not matched. The 100,000-action setting may exceed actual model output limits.</figcaption><a class="figure-download" href="figures/blind-policy.png" download>Download the figure</a></figure>
+  <div class="prose"><p>With a 100,000-action limit, the policy reached the goal in <strong>1,893 of 2,000 easy-map trials</strong> (94.65%). It used a mean of 27,703.8 executed actions and 7,066.3 collisions per easy-map trial, counting capped trials too. It solved all four easy maps in 405 of the 500 shared-sequence trials.</p><p>This does not make it a fair competitor to an LLM. It demonstrates a property of the protocol: a low decision count can conceal a very large execution budget. For future comparisons, I would report success as a function of <em>both</em> planning decisions and motor actions, alongside exploration coverage and collisions.</p></div>
+
+  <section class="prose article-section" id="run-explorer"><h2>Inspect an actual run</h2><p>Every model run below can be inspected by decision and by individual action. The brief text is the model's public submitted intention. The ground-truth map and route are review aids.</p></section>
+  <figure class="wide explorer-figure"><div class="explorer-controls"><label>Recorded run <select id="episode-picker"></select></label><label>Decision <input id="episode-round" type="range" min="0" value="0"><output id="episode-round-label"></output></label><label>Action in sequence <input id="episode-action" type="range" min="0" value="0"><output id="episode-action-label"></output></label></div><div id="episode-stage"></div><figcaption>Replay previews are compressed JPEGs; inference inputs were lossless 720p PNGs. Source observations, physical states, and actions are preserved in the audit trail. A decision-cap case is an unfinished run, not a successful run taking exactly the cap.</figcaption></figure>
+  <div class="wide film-browser"><div class="figure-toolbar"><h3>Full five-model films</h3><label>Film <select id="film-picker"></select></label></div><video id="full-film" controls preload="none" poster="assets/poster.png"></video><p class="small-note">One film per case and configuration, about 1 minute 43 seconds each. Planning rounds are synchronized; long sequences are accelerated. The timebase does not measure inference latency.</p><a id="film-download" href="#" download>Download this film</a></div>
+
+  <section class="prose article-section" id="outlook"><h2><span class="section-number">8</span> What should we test next?</h2>
+    <p>These results come from four fixed easy mazes per model/configuration and a separate four-map Astra extension. There is one recorded run per configuration and case. The experiment is small, source aliases do not guarantee immutable model snapshots, and the native/API settings are not fully matched.</p>
+    <p>The next experiments should separate the factors that this pilot combines:</p>
+    <ul><li><strong>Mirror versus matte walls</strong> on the same graph, seed, budget, and model configuration.</li><li><strong>Matched graph size and distance</strong> across tilings, with more seeds and repeated runs.</li><li><strong>Matched conversation-state handling</strong> for native and direct-API agents, with the same prompts and reasoning settings.</li><li><strong>Joint planning and action budgets</strong>, including visibility-free policies and collision-aware baselines.</li></ul>
+    <p>A useful reference is an ideal local observer with exact memory. On these tree mazes, a conservative depth-first exploration policy can backtrack on known routes, enter a new cell, and scan its directions in one batch. It needs at most one decision per cell: 49/127 on the easy maps and 121/331 on the medium maps. The scan rotations still count as motor actions. The bound assumes the complete scan is available. It is an ideal-information reference, not a verified guarantee under the client's image-pruning policy or a measured human score.</p>
+    <p>The goal of this project is to make the navigation problem and the failure modes inspectable. The interesting question is how perception, remembered state, and exploration strategy fit together across a sequence of decisions.</p>
+    <h3>Try the environment and API</h3>
+    <p>The implementation is available in a <a href="https://github.com/kennymckormick/mirror-maze">private testing repository</a>. The Python interface supports initialization, rendering, single actions, and action sequences, using the same canonical rules as the browser environment.</p>
+    <pre class="code-example"><code>from mirror_maze import MirrorMaze
+
+with MirrorMaze(topology="hex", difficulty="medium",
+                seed="MIRROR-042") as maze:
+    png = maze.render(width=1280, height=720)
+    outcome = maze.perform(["right", "forward"],
+                           stop_on_collision=False)</code></pre>
+    <div class="data-links"><a href="data/cases.csv" download>Case-level results CSV</a><a href="data/analysis.json" download>Trajectory analysis</a><a href="data/random-policy-protocol.json" download>Blind-policy protocol</a><a href="data/random-policy-results.json" download>Blind-policy results</a><a href="data/ideal-observer.json" download>Ideal-observer reference</a><a href="twitter/">Twitter drafts &amp; media</a></div>
+  </section>
+  </article>
+  <footer><p>Written by Kenny · November 2026</p><p>Page layout inspired by <a href="https://haoquanzhang.github.io/pixelbench/" target="_blank" rel="noopener">PixelBench</a>. All observations and results here are from the Mirror Maze project.</p><a href="#top">Back to top ↑</a></footer>
+</main>
+<script type="module" src="app.js"></script>
+</body></html>

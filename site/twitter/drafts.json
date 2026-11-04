@@ -1,0 +1,58 @@
+{
+  "drafts": [
+    {
+      "id": "curiosity",
+      "label": "Recommended opening",
+      "text": "I built a maze where every wall is a mirror.\n\nA corridor can be an illusion. So can the goal.\n\nOne run: 499 collision-free planning decisions. Still no exit.\n\nTry it yourself, then inspect what the models did:\nhttp://vlmeval.byted.org/reports/view/rzAw-KSgopFj/",
+      "weighted_characters": 233
+    },
+    {
+      "id": "exploration",
+      "label": "The surprising failure",
+      "text": "GPT-6 Astra avoided wall collisions for 499 planning decisions in a mirror maze.\n\nIt still failed to finish.\n\nThe replay shows long stretches of turning and revisiting. Safe actions did not add up to effective exploration.\n\nhttp://vlmeval.byted.org/reports/view/rzAw-KSgopFj/",
+      "weighted_characters": 247
+    },
+    {
+      "id": "metric",
+      "label": "Evaluation angle",
+      "text": "How much work can hide inside one agent \"step\"?\n\nIn our mirror-maze protocol, a blind 100,000-action sequence counts as one planning decision.\n\nThat stress test changed how I read the results. Actions, coverage and collisions belong beside pass rates.\n\nhttp://vlmeval.byted.org/reports/view/rzAw-KSgopFj/",
+      "weighted_characters": 276
+    }
+  ],
+  "thread": [
+    {
+      "post": 1,
+      "text": "1/ I built a maze where every wall is a mirror.\n\nYou can see a corridor that does not exist, or a goal you cannot actually reach.\n\nModels get first-person images and three actions: left, right, forward. Can they keep track of a real route?\n\nhttp://vlmeval.byted.org/reports/view/rzAw-KSgopFj/",
+      "weighted_characters": 264
+    },
+    {
+      "post": 2,
+      "text": "2/ One plan may contain multiple actions. The next turn receives per-action images; models never see the spectator map.\n\nThe first study has 40 runs: five models, four fixed easy mazes, native clients vs a public-text-history API baseline.",
+      "weighted_characters": 239
+    },
+    {
+      "post": 3,
+      "text": "3/ In that small study, GPT-6.1 Sol solved 4/4 with Codex and 1/4 in the API baseline.\n\nSession-state handling differs, but so do prompts and defaults. This is a configuration comparison, not an isolated causal result.",
+      "weighted_characters": 218
+    },
+    {
+      "post": 4,
+      "text": "4/ On four larger mazes, GPT-6 Astra + Codex solved 3/4 with a 500-decision cap.\n\nThe failed run had zero collisions through decision 499, including a 41-decision plateau at 38 visited cells. Its final 89-action batch caused all 38 collisions.",
+      "weighted_characters": 243
+    },
+    {
+      "post": 5,
+      "text": "5/ I also tested a blind, code-generated one-plan policy. With a 100,000-action limit it solved 94.65% of easy-map trials, at a mean 27,704 actions and 7,066 collisions.\n\nNot a model score or compute-matched baseline: a stress test of what the decision metric rewards.",
+      "weighted_characters": 268
+    },
+    {
+      "post": 6,
+      "text": "6/ The project page has a playable maze, all 44 model-run replays, English per-case videos, the protocol, and the offline stress-test method.\n\nSmall fixed maps, no mirror-vs-matte control yet. Plenty left to test.\n\nhttp://vlmeval.byted.org/reports/view/rzAw-KSgopFj/",
+      "weighted_characters": 238
+    }
+  ],
+  "post_status": "draft_only_not_posted",
+  "recommended_media": "../videos/mirror-maze-teaser-48s.mp4",
+  "video_alt_text": "Five model columns show recorded first-person views and spectator-only maps in square maze MIRROR-043. GPT-6.1 Sol with Codex reaches the goal at planning decision 49. Counters distinguish plans, motor actions and collisions. Playback is aligned by planning decision and does not measure inference latency.",
+  "link": "http://vlmeval.byted.org/reports/view/rzAw-KSgopFj/"
+}

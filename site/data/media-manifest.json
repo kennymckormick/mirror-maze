@@ -1,0 +1,139 @@
+{
+  "language": "en",
+  "source_data_sha256": "7d1a806d5089862afa3e97abe7f3a58ddf9786fcc0f3f0e5b1f579870b6ae8eb",
+  "source_data_path": "frozen final-study/data.json",
+  "replay_timebase": "12 fps; six frames per planning round0..200 plus24 final hold frames; not inference latency",
+  "model_labels": {
+    "deepseek": "DeepSeek-V4.1-Flash*",
+    "kimi": "Kimi K3.1 Pro",
+    "gpt": "GPT-6.1 Sol",
+    "gemini": "Gemini 4 Argon",
+    "seed": "Seed 2.1 Pro"
+  },
+  "source_aliases": {
+    "harness": {
+      "deepseek": "DeepSeek-V4.1-Flash",
+      "kimi": "Kimi-K3.1-Pro-Ark",
+      "gpt": "Codex-GPT-6.1-Sol",
+      "gemini": "MC-ModelHub-Gemini-4-Argon",
+      "seed": "Seed2.1-Pro"
+    },
+    "api": {
+      "deepseek": "DeepSeek-V4.1-Flash",
+      "kimi": "Kimi-K3.1-Pro-Ark",
+      "gpt": "Codex-GPT-6.1-Sol",
+      "gemini": "MC-ModelHub-Gemini-4-Argon",
+      "seed": "Seed2.1-Pro"
+    }
+  },
+  "videos": [
+    {
+      "mode": "harness",
+      "case": "square-MIRROR-042",
+      "path": "videos/harness/square-MIRROR-042.mp4",
+      "duration_seconds": 102.5,
+      "width": 1920,
+      "height": 1080,
+      "frames": 1230,
+      "fps": "12/1",
+      "sha256": "acd29ac74c3dd709727d52dcf1c25e2dcf93d877f7208e1d43b7bfdba7e5ff87"
+    },
+    {
+      "mode": "harness",
+      "case": "square-MIRROR-043",
+      "path": "videos/harness/square-MIRROR-043.mp4",
+      "duration_seconds": 102.5,
+      "width": 1920,
+      "height": 1080,
+      "frames": 1230,
+      "fps": "12/1",
+      "sha256": "2b29dae41a687abdca18158bbac0e5c4ffac834016cc296e7e3ab456ca966457"
+    },
+    {
+      "mode": "harness",
+      "case": "hex-MIRROR-042",
+      "path": "videos/harness/hex-MIRROR-042.mp4",
+      "duration_seconds": 102.5,
+      "width": 1920,
+      "height": 1080,
+      "frames": 1230,
+      "fps": "12/1",
+      "sha256": "2a88a80eae0416061d90e40e1744e1e6eab233165c2644e132fed6be9deb87f7"
+    },
+    {
+      "mode": "harness",
+      "case": "hex-MIRROR-043",
+      "path": "videos/harness/hex-MIRROR-043.mp4",
+      "duration_seconds": 102.5,
+      "width": 1920,
+      "height": 1080,
+      "frames": 1230,
+      "fps": "12/1",
+      "sha256": "a4c5af8e6924cfe37d1f9956667f08f08196dec97578ba8ffa9beb86c0bee80c"
+    },
+    {
+      "mode": "api",
+      "case": "square-MIRROR-042",
+      "path": "videos/api/square-MIRROR-042.mp4",
+      "duration_seconds": 102.5,
+      "width": 1920,
+      "height": 1080,
+      "frames": 1230,
+      "fps": "12/1",
+      "sha256": "b7abc0559b13f7c00bf358d080bee554f830129b1f9ef365e066f35af9068c9b"
+    },
+    {
+      "mode": "api",
+      "case": "square-MIRROR-043",
+      "path": "videos/api/square-MIRROR-043.mp4",
+      "duration_seconds": 102.5,
+      "width": 1920,
+      "height": 1080,
+      "frames": 1230,
+      "fps": "12/1",
+      "sha256": "757ca364ae92238d2ed31fb16a48300927b80fad83bae570ecae5a62b528e233"
+    },
+    {
+      "mode": "api",
+      "case": "hex-MIRROR-042",
+      "path": "videos/api/hex-MIRROR-042.mp4",
+      "duration_seconds": 102.5,
+      "width": 1920,
+      "height": 1080,
+      "frames": 1230,
+      "fps": "12/1",
+      "sha256": "cfad8ae65a74ec605587c1e9e65d5e19e43f0f2220f9b55aab8f7ae8e7fdf0fa"
+    },
+    {
+      "mode": "api",
+      "case": "hex-MIRROR-043",
+      "path": "videos/api/hex-MIRROR-043.mp4",
+      "duration_seconds": 102.5,
+      "width": 1920,
+      "height": 1080,
+      "frames": 1230,
+      "fps": "12/1",
+      "sha256": "a60ba3757ae9d393e1ea6487d4bb7ad001dda6b2ec0ab6e720d6fe59f7a62d2e"
+    }
+  ],
+  "teaser": {
+    "path": "videos/mirror-maze-teaser-48s.mp4",
+    "duration_seconds": 48.0,
+    "width": 1920,
+    "height": 1080,
+    "frames": 576,
+    "fps": "12/1",
+    "sha256": "00c06a3a1cbc0fb3cb20beef4649d5489f2a4c371658d64296fe828a9b5d976a",
+    "example": "square-MIRROR-043",
+    "source_mode": "harness",
+    "excerpt_source_seconds": [
+      10,
+      35
+    ],
+    "purpose": "illustrative excerpt, not representative case sampling"
+  },
+  "no_new_inference": true,
+  "no_private_reasoning_exported": true,
+  "renderer_sha256": "ea3113b66cda0d01bf86e454d1c6260d7fa05ed9767bb226c6c736d973ec9551",
+  "qa": "qa.json"
+}

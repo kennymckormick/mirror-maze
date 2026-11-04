@@ -1,0 +1,322 @@
+{
+  "video_count": 8,
+  "all_encoding_checks_passed": true,
+  "evidence_pixel_checks": [
+    {
+      "mode": "harness",
+      "case": "square-MIRROR-042",
+      "round": 0,
+      "first_person_and_map_pixels_identical_for_all5models": true
+    },
+    {
+      "mode": "harness",
+      "case": "square-MIRROR-042",
+      "round": 64,
+      "first_person_and_map_pixels_identical_for_all5models": true
+    },
+    {
+      "mode": "harness",
+      "case": "square-MIRROR-042",
+      "round": 200,
+      "first_person_and_map_pixels_identical_for_all5models": true
+    },
+    {
+      "mode": "harness",
+      "case": "square-MIRROR-043",
+      "round": 0,
+      "first_person_and_map_pixels_identical_for_all5models": true
+    },
+    {
+      "mode": "harness",
+      "case": "square-MIRROR-043",
+      "round": 64,
+      "first_person_and_map_pixels_identical_for_all5models": true
+    },
+    {
+      "mode": "harness",
+      "case": "square-MIRROR-043",
+      "round": 200,
+      "first_person_and_map_pixels_identical_for_all5models": true
+    },
+    {
+      "mode": "harness",
+      "case": "hex-MIRROR-042",
+      "round": 0,
+      "first_person_and_map_pixels_identical_for_all5models": true
+    },
+    {
+      "mode": "harness",
+      "case": "hex-MIRROR-042",
+      "round": 64,
+      "first_person_and_map_pixels_identical_for_all5models": true
+    },
+    {
+      "mode": "harness",
+      "case": "hex-MIRROR-042",
+      "round": 200,
+      "first_person_and_map_pixels_identical_for_all5models": true
+    },
+    {
+      "mode": "harness",
+      "case": "hex-MIRROR-043",
+      "round": 0,
+      "first_person_and_map_pixels_identical_for_all5models": true
+    },
+    {
+      "mode": "harness",
+      "case": "hex-MIRROR-043",
+      "round": 64,
+      "first_person_and_map_pixels_identical_for_all5models": true
+    },
+    {
+      "mode": "harness",
+      "case": "hex-MIRROR-043",
+      "round": 200,
+      "first_person_and_map_pixels_identical_for_all5models": true
+    },
+    {
+      "mode": "api",
+      "case": "square-MIRROR-042",
+      "round": 0,
+      "first_person_and_map_pixels_identical_for_all5models": true
+    },
+    {
+      "mode": "api",
+      "case": "square-MIRROR-042",
+      "round": 64,
+      "first_person_and_map_pixels_identical_for_all5models": true
+    },
+    {
+      "mode": "api",
+      "case": "square-MIRROR-042",
+      "round": 200,
+      "first_person_and_map_pixels_identical_for_all5models": true
+    },
+    {
+      "mode": "api",
+      "case": "square-MIRROR-043",
+      "round": 0,
+      "first_person_and_map_pixels_identical_for_all5models": true
+    },
+    {
+      "mode": "api",
+      "case": "square-MIRROR-043",
+      "round": 64,
+      "first_person_and_map_pixels_identical_for_all5models": true
+    },
+    {
+      "mode": "api",
+      "case": "square-MIRROR-043",
+      "round": 200,
+      "first_person_and_map_pixels_identical_for_all5models": true
+    },
+    {
+      "mode": "api",
+      "case": "hex-MIRROR-042",
+      "round": 0,
+      "first_person_and_map_pixels_identical_for_all5models": true
+    },
+    {
+      "mode": "api",
+      "case": "hex-MIRROR-042",
+      "round": 64,
+      "first_person_and_map_pixels_identical_for_all5models": true
+    },
+    {
+      "mode": "api",
+      "case": "hex-MIRROR-042",
+      "round": 200,
+      "first_person_and_map_pixels_identical_for_all5models": true
+    },
+    {
+      "mode": "api",
+      "case": "hex-MIRROR-043",
+      "round": 0,
+      "first_person_and_map_pixels_identical_for_all5models": true
+    },
+    {
+      "mode": "api",
+      "case": "hex-MIRROR-043",
+      "round": 64,
+      "first_person_and_map_pixels_identical_for_all5models": true
+    },
+    {
+      "mode": "api",
+      "case": "hex-MIRROR-043",
+      "round": 200,
+      "first_person_and_map_pixels_identical_for_all5models": true
+    }
+  ],
+  "frame_samples": [
+    {
+      "mode": "harness",
+      "case": "square-MIRROR-042",
+      "frame": "first",
+      "video_seconds": 0,
+      "path": "previews/harness-square-MIRROR-042-first.jpg"
+    },
+    {
+      "mode": "harness",
+      "case": "square-MIRROR-042",
+      "frame": "middle",
+      "video_seconds": 51.25,
+      "path": "previews/harness-square-MIRROR-042-middle.jpg"
+    },
+    {
+      "mode": "harness",
+      "case": "square-MIRROR-042",
+      "frame": "last",
+      "video_seconds": 102.25,
+      "path": "previews/harness-square-MIRROR-042-last.jpg"
+    },
+    {
+      "mode": "harness",
+      "case": "square-MIRROR-043",
+      "frame": "first",
+      "video_seconds": 0,
+      "path": "previews/harness-square-MIRROR-043-first.jpg"
+    },
+    {
+      "mode": "harness",
+      "case": "square-MIRROR-043",
+      "frame": "middle",
+      "video_seconds": 51.25,
+      "path": "previews/harness-square-MIRROR-043-middle.jpg"
+    },
+    {
+      "mode": "harness",
+      "case": "square-MIRROR-043",
+      "frame": "last",
+      "video_seconds": 102.25,
+      "path": "previews/harness-square-MIRROR-043-last.jpg"
+    },
+    {
+      "mode": "harness",
+      "case": "hex-MIRROR-042",
+      "frame": "first",
+      "video_seconds": 0,
+      "path": "previews/harness-hex-MIRROR-042-first.jpg"
+    },
+    {
+      "mode": "harness",
+      "case": "hex-MIRROR-042",
+      "frame": "middle",
+      "video_seconds": 51.25,
+      "path": "previews/harness-hex-MIRROR-042-middle.jpg"
+    },
+    {
+      "mode": "harness",
+      "case": "hex-MIRROR-042",
+      "frame": "last",
+      "video_seconds": 102.25,
+      "path": "previews/harness-hex-MIRROR-042-last.jpg"
+    },
+    {
+      "mode": "harness",
+      "case": "hex-MIRROR-043",
+      "frame": "first",
+      "video_seconds": 0,
+      "path": "previews/harness-hex-MIRROR-043-first.jpg"
+    },
+    {
+      "mode": "harness",
+      "case": "hex-MIRROR-043",
+      "frame": "middle",
+      "video_seconds": 51.25,
+      "path": "previews/harness-hex-MIRROR-043-middle.jpg"
+    },
+    {
+      "mode": "harness",
+      "case": "hex-MIRROR-043",
+      "frame": "last",
+      "video_seconds": 102.25,
+      "path": "previews/harness-hex-MIRROR-043-last.jpg"
+    },
+    {
+      "mode": "api",
+      "case": "square-MIRROR-042",
+      "frame": "first",
+      "video_seconds": 0,
+      "path": "previews/api-square-MIRROR-042-first.jpg"
+    },
+    {
+      "mode": "api",
+      "case": "square-MIRROR-042",
+      "frame": "middle",
+      "video_seconds": 51.25,
+      "path": "previews/api-square-MIRROR-042-middle.jpg"
+    },
+    {
+      "mode": "api",
+      "case": "square-MIRROR-042",
+      "frame": "last",
+      "video_seconds": 102.25,
+      "path": "previews/api-square-MIRROR-042-last.jpg"
+    },
+    {
+      "mode": "api",
+      "case": "square-MIRROR-043",
+      "frame": "first",
+      "video_seconds": 0,
+      "path": "previews/api-square-MIRROR-043-first.jpg"
+    },
+    {
+      "mode": "api",
+      "case": "square-MIRROR-043",
+      "frame": "middle",
+      "video_seconds": 51.25,
+      "path": "previews/api-square-MIRROR-043-middle.jpg"
+    },
+    {
+      "mode": "api",
+      "case": "square-MIRROR-043",
+      "frame": "last",
+      "video_seconds": 102.25,
+      "path": "previews/api-square-MIRROR-043-last.jpg"
+    },
+    {
+      "mode": "api",
+      "case": "hex-MIRROR-042",
+      "frame": "first",
+      "video_seconds": 0,
+      "path": "previews/api-hex-MIRROR-042-first.jpg"
+    },
+    {
+      "mode": "api",
+      "case": "hex-MIRROR-042",
+      "frame": "middle",
+      "video_seconds": 51.25,
+      "path": "previews/api-hex-MIRROR-042-middle.jpg"
+    },
+    {
+      "mode": "api",
+      "case": "hex-MIRROR-042",
+      "frame": "last",
+      "video_seconds": 102.25,
+      "path": "previews/api-hex-MIRROR-042-last.jpg"
+    },
+    {
+      "mode": "api",
+      "case": "hex-MIRROR-043",
+      "frame": "first",
+      "video_seconds": 0,
+      "path": "previews/api-hex-MIRROR-043-first.jpg"
+    },
+    {
+      "mode": "api",
+      "case": "hex-MIRROR-043",
+      "frame": "middle",
+      "video_seconds": 51.25,
+      "path": "previews/api-hex-MIRROR-043-middle.jpg"
+    },
+    {
+      "mode": "api",
+      "case": "hex-MIRROR-043",
+      "frame": "last",
+      "video_seconds": 102.25,
+      "path": "previews/api-hex-MIRROR-043-last.jpg"
+    }
+  ],
+  "total_evidence_regions_compared": 240,
+  "privacy": "No private inference logs or reasoning payloads used."
+}

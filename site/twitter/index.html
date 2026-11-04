@@ -1,0 +1,38 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Mirror Maze - Twitter drafts</title><link rel="stylesheet" href="../style.css"><style>main{max-width:850px}.intro{padding:60px 0 25px}h1{font-size:45px;margin-bottom:20px}.draft{padding:22px 0;border-top:1px solid #e3e9eb}.tag{font:12px var(--ui);color:#81919a;margin-bottom:14px}textarea{width:100%;height:200px;border:1px solid #e0e7eb;border-radius:4px;background:#fafbfc;color:#526d7b;font:14px/1.8 var(--ui);padding:16px;resize:vertical}.draft>div{display:flex;align-items:center;gap:20px;margin-top:10px;font:11px var(--ui);color:#8a9ba5}.draft button{font:12px var(--ui);padding:7px 13px;background:white;border:1px solid #d7e1e6;border-radius:3px;color:#5b7686}.media{margin:25px 0 35px}.media video{width:100%}h2{margin-top:45px}.intro p{font-size:17px}.notes{font:12px/1.8 var(--ui);color:#8999a2}footer{margin-top:40px}</style><header class="masthead"><a class="wordmark" href="../">Mirror Maze</a><nav><a href="../">Project page</a></nav></header><main><section class="intro"><h1>Twitter drafts</h1><p>Lead with a visual question, then let the recorded behavior carry the story. The recommended opening pairs with the 48-second clip. The six-post thread adds the protocol and the metric stress test.</p><p class="notes">These are drafts for selection. Nothing has been posted. All entries fit 280 characters after URL wrapping; no public-code release is promised.</p></section><div class="media"><video controls preload="metadata" src="../videos/mirror-maze-teaser-48s.mp4" poster="../assets/poster.png"></video><p><a href="../videos/mirror-maze-teaser-48s.mp4" download>Download the English 48-second video</a> · <a href="../assets/social-card.png" download>Download the social card</a></p></div><h2>Choose an opening</h2><section class="draft"><p class="tag">Recommended opening</p><textarea readonly>I built a maze where every wall is a mirror.
+
+A corridor can be an illusion. So can the goal.
+
+One run: 499 collision-free planning decisions. Still no exit.
+
+Try it yourself, then inspect what the models did:
+http://vlmeval.byted.org/reports/view/rzAw-KSgopFj/</textarea><div><button>Copy draft</button><span>233 / 280 characters</span></div></section><section class="draft"><p class="tag">The surprising failure</p><textarea readonly>GPT-6 Astra avoided wall collisions for 499 planning decisions in a mirror maze.
+
+It still failed to finish.
+
+The replay shows long stretches of turning and revisiting. Safe actions did not add up to effective exploration.
+
+http://vlmeval.byted.org/reports/view/rzAw-KSgopFj/</textarea><div><button>Copy draft</button><span>247 / 280 characters</span></div></section><section class="draft"><p class="tag">Evaluation angle</p><textarea readonly>How much work can hide inside one agent &quot;step&quot;?
+
+In our mirror-maze protocol, a blind 100,000-action sequence counts as one planning decision.
+
+That stress test changed how I read the results. Actions, coverage and collisions belong beside pass rates.
+
+http://vlmeval.byted.org/reports/view/rzAw-KSgopFj/</textarea><div><button>Copy draft</button><span>276 / 280 characters</span></div></section><h2>A thread with the evidence</h2><section class="draft"><p class="tag">Thread post 1</p><textarea readonly>1/ I built a maze where every wall is a mirror.
+
+You can see a corridor that does not exist, or a goal you cannot actually reach.
+
+Models get first-person images and three actions: left, right, forward. Can they keep track of a real route?
+
+http://vlmeval.byted.org/reports/view/rzAw-KSgopFj/</textarea><div><button>Copy post</button><span>264 / 280 characters</span></div></section><section class="draft"><p class="tag">Thread post 2</p><textarea readonly>2/ One plan may contain multiple actions. The next turn receives per-action images; models never see the spectator map.
+
+The first study has 40 runs: five models, four fixed easy mazes, native clients vs a public-text-history API baseline.</textarea><div><button>Copy post</button><span>239 / 280 characters</span></div></section><section class="draft"><p class="tag">Thread post 3</p><textarea readonly>3/ In that small study, GPT-6.1 Sol solved 4/4 with Codex and 1/4 in the API baseline.
+
+Session-state handling differs, but so do prompts and defaults. This is a configuration comparison, not an isolated causal result.</textarea><div><button>Copy post</button><span>218 / 280 characters</span></div></section><section class="draft"><p class="tag">Thread post 4</p><textarea readonly>4/ On four larger mazes, GPT-6 Astra + Codex solved 3/4 with a 500-decision cap.
+
+The failed run had zero collisions through decision 499, including a 41-decision plateau at 38 visited cells. Its final 89-action batch caused all 38 collisions.</textarea><div><button>Copy post</button><span>243 / 280 characters</span></div></section><section class="draft"><p class="tag">Thread post 5</p><textarea readonly>5/ I also tested a blind, code-generated one-plan policy. With a 100,000-action limit it solved 94.65% of easy-map trials, at a mean 27,704 actions and 7,066 collisions.
+
+Not a model score or compute-matched baseline: a stress test of what the decision metric rewards.</textarea><div><button>Copy post</button><span>268 / 280 characters</span></div></section><section class="draft"><p class="tag">Thread post 6</p><textarea readonly>6/ The project page has a playable maze, all 44 model-run replays, English per-case videos, the protocol, and the offline stress-test method.
+
+Small fixed maps, no mirror-vs-matte control yet. Plenty left to test.
+
+http://vlmeval.byted.org/reports/view/rzAw-KSgopFj/</textarea><div><button>Copy post</button><span>238 / 280 characters</span></div></section><h2>Video alt text</h2><p class="notes">Five model columns show recorded first-person views and spectator-only maps in square maze MIRROR-043. GPT-6.1 Sol with Codex reaches the goal at planning decision 49. Counters distinguish plans, motor actions and collisions. Playback is aligned by planning decision and does not measure inference latency.</p><p><a href="drafts.json" download>Download all drafts as JSON</a></p><footer>Prepared for Kenny · Mirror Maze</footer></main><script>document.querySelectorAll('.draft button').forEach(b=>b.onclick=async()=>{const t=b.closest('section').querySelector('textarea');try{if(navigator.clipboard&&isSecureContext)await navigator.clipboard.writeText(t.value);else{t.focus();t.select();if(!document.execCommand('copy'))throw Error();}b.textContent='Copied';}catch(e){t.focus();t.select();b.textContent='Selected - press Ctrl/Cmd+C';}});</script></html>

@@ -1,0 +1,10 @@
+{
+  "cases": 44,
+  "planning_rounds": 7907,
+  "recorded_action_entries": 121547,
+  "motor_actions": 121540,
+  "all_transformed_rules_match": true,
+  "english_only": true,
+  "presentation_assets": 4338,
+  "model_results_changed": false
+}

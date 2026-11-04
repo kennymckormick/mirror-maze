@@ -1,0 +1,87 @@
+{
+  "kind": "state_blind_one_decision_protocol_stress_test",
+  "preregistered_at": "2026-11-04T08:05:13.795Z",
+  "trials": 500,
+  "trial_seed_base": 20261104,
+  "trial_seed_last": 20261603,
+  "action_budgets": [
+    1000,
+    10000,
+    100000
+  ],
+  "action_space": [
+    "left",
+    "right",
+    "forward"
+  ],
+  "action_distribution": "pseudorandom uniform left/right/forward via xorshift32 and rejection-to-range3",
+  "generator": "xorshift32: x^=x<<13;x^=x>>>17;x^=x<<5; reject4294967295; value%3",
+  "same_sequence_across_maps": true,
+  "sequence_pregenerated_before_simulation": true,
+  "policy_reads_state": false,
+  "policy_reads_images": false,
+  "policy_reads_goal": false,
+  "host_stops_at_actual_goal": true,
+  "planning_decisions_per_trial": 1,
+  "no_token_or_compute_matching": true,
+  "model_results_modified": false,
+  "rules_sha256": "c98cec60c4f4c96195bfe96c8ae4848471c487ed118afefb3c74a160c948d7e6",
+  "maps": [
+    {
+      "id": "easy/square-MIRROR-042",
+      "difficulty": "easy",
+      "topology": "square",
+      "seed": "MIRROR-042",
+      "sideLength": 7
+    },
+    {
+      "id": "easy/square-MIRROR-043",
+      "difficulty": "easy",
+      "topology": "square",
+      "seed": "MIRROR-043",
+      "sideLength": 7
+    },
+    {
+      "id": "easy/hex-MIRROR-042",
+      "difficulty": "easy",
+      "topology": "hex",
+      "seed": "MIRROR-042",
+      "sideLength": 7
+    },
+    {
+      "id": "easy/hex-MIRROR-043",
+      "difficulty": "easy",
+      "topology": "hex",
+      "seed": "MIRROR-043",
+      "sideLength": 7
+    },
+    {
+      "id": "medium/square-MIRROR-042",
+      "difficulty": "medium",
+      "topology": "square",
+      "seed": "MIRROR-042",
+      "sideLength": 11
+    },
+    {
+      "id": "medium/square-MIRROR-043",
+      "difficulty": "medium",
+      "topology": "square",
+      "seed": "MIRROR-043",
+      "sideLength": 11
+    },
+    {
+      "id": "medium/hex-MIRROR-042",
+      "difficulty": "medium",
+      "topology": "hex",
+      "seed": "MIRROR-042",
+      "sideLength": 11
+    },
+    {
+      "id": "medium/hex-MIRROR-043",
+      "difficulty": "medium",
+      "topology": "hex",
+      "seed": "MIRROR-043",
+      "sideLength": 11
+    }
+  ]
+}

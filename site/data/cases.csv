@@ -1,0 +1,45 @@
+id,name,arm,difficulty,topology,seed,cells,status,planning,cap,actions,collisions,visited,sourceAlias,harness
+harness/deepseek-square-MIRROR-042,DeepSeek-V4.1-Flash,harness,easy,square,MIRROR-042,49,planning_cap,200,200,1392,753,43,DeepSeek-V4.1-Flash,claude
+harness/deepseek-square-MIRROR-043,DeepSeek-V4.1-Flash,harness,easy,square,MIRROR-043,49,success,90,200,887,469,49,DeepSeek-V4.1-Flash,claude
+harness/deepseek-hex-MIRROR-042,DeepSeek-V4.1-Flash,harness,easy,hex,MIRROR-042,127,planning_cap,200,200,61169,21971,34,DeepSeek-V4.1-Flash,claude
+harness/deepseek-hex-MIRROR-043,DeepSeek-V4.1-Flash,harness,easy,hex,MIRROR-043,127,planning_cap,200,200,9607,3886,23,DeepSeek-V4.1-Flash,claude
+harness/kimi-square-MIRROR-042,Kimi K3.1 Pro,harness,easy,square,MIRROR-042,49,success,190,200,723,91,42,Kimi-K3.1-Pro-Ark,claude
+harness/kimi-square-MIRROR-043,Kimi K3.1 Pro,harness,easy,square,MIRROR-043,49,planning_cap,200,200,494,105,29,Kimi-K3.1-Pro-Ark,claude
+harness/kimi-hex-MIRROR-042,Kimi K3.1 Pro,harness,easy,hex,MIRROR-042,127,planning_cap,200,200,4554,1808,15,Kimi-K3.1-Pro-Ark,claude
+harness/kimi-hex-MIRROR-043,Kimi K3.1 Pro,harness,easy,hex,MIRROR-043,127,planning_cap,200,200,602,86,7,Kimi-K3.1-Pro-Ark,claude
+harness/gpt-square-MIRROR-042,GPT-6.1 Sol,harness,easy,square,MIRROR-042,49,success,79,200,321,23,48,Codex-GPT-6.1-Sol,codex
+harness/gpt-square-MIRROR-043,GPT-6.1 Sol,harness,easy,square,MIRROR-043,49,success,49,200,213,19,46,Codex-GPT-6.1-Sol,codex
+harness/gpt-hex-MIRROR-042,GPT-6.1 Sol,harness,easy,hex,MIRROR-042,127,success,174,200,1453,18,102,Codex-GPT-6.1-Sol,codex
+harness/gpt-hex-MIRROR-043,GPT-6.1 Sol,harness,easy,hex,MIRROR-043,127,success,193,200,606,6,115,Codex-GPT-6.1-Sol,codex
+harness/gemini-square-MIRROR-042,Gemini 4 Argon,harness,easy,square,MIRROR-042,49,success,43,200,280,22,30,MC-ModelHub-Gemini-4-Argon,agy
+harness/gemini-square-MIRROR-043,Gemini 4 Argon,harness,easy,square,MIRROR-043,49,planning_cap,200,200,1723,280,38,MC-ModelHub-Gemini-4-Argon,agy
+harness/gemini-hex-MIRROR-042,Gemini 4 Argon,harness,easy,hex,MIRROR-042,127,planning_cap,200,200,2277,194,23,MC-ModelHub-Gemini-4-Argon,agy
+harness/gemini-hex-MIRROR-043,Gemini 4 Argon,harness,easy,hex,MIRROR-043,127,planning_cap,200,200,1937,155,9,MC-ModelHub-Gemini-4-Argon,agy
+harness/seed-square-MIRROR-042,Seed 2.1 Pro,harness,easy,square,MIRROR-042,49,planning_cap,200,200,297,47,15,Seed2.1-Pro,claude
+harness/seed-square-MIRROR-043,Seed 2.1 Pro,harness,easy,square,MIRROR-043,49,planning_cap,200,200,328,59,19,Seed2.1-Pro,claude
+harness/seed-hex-MIRROR-042,Seed 2.1 Pro,harness,easy,hex,MIRROR-042,127,planning_cap,200,200,276,34,19,Seed2.1-Pro,claude
+harness/seed-hex-MIRROR-043,Seed 2.1 Pro,harness,easy,hex,MIRROR-043,127,planning_cap,200,200,275,41,14,Seed2.1-Pro,claude
+api/deepseek-square-MIRROR-042,DeepSeek-V4.1-Flash,api,easy,square,MIRROR-042,49,success,77,200,240,48,34,DeepSeek-V4.1-Flash,
+api/deepseek-square-MIRROR-043,DeepSeek-V4.1-Flash,api,easy,square,MIRROR-043,49,success,92,200,315,55,46,DeepSeek-V4.1-Flash,
+api/deepseek-hex-MIRROR-042,DeepSeek-V4.1-Flash,api,easy,hex,MIRROR-042,127,planning_cap,200,200,783,222,14,DeepSeek-V4.1-Flash,
+api/deepseek-hex-MIRROR-043,DeepSeek-V4.1-Flash,api,easy,hex,MIRROR-043,127,planning_cap,200,200,3157,1575,35,DeepSeek-V4.1-Flash,
+api/kimi-square-MIRROR-042,Kimi K3.1 Pro,api,easy,square,MIRROR-042,49,planning_cap,200,200,1098,173,47,Kimi-K3.1-Pro-Ark,
+api/kimi-square-MIRROR-043,Kimi K3.1 Pro,api,easy,square,MIRROR-043,49,success,112,200,458,14,46,Kimi-K3.1-Pro-Ark,
+api/kimi-hex-MIRROR-042,Kimi K3.1 Pro,api,easy,hex,MIRROR-042,127,planning_cap,200,200,2170,208,39,Kimi-K3.1-Pro-Ark,
+api/kimi-hex-MIRROR-043,Kimi K3.1 Pro,api,easy,hex,MIRROR-043,127,planning_cap,200,200,1996,229,31,Kimi-K3.1-Pro-Ark,
+api/gpt-square-MIRROR-042,GPT-6.1 Sol,api,easy,square,MIRROR-042,49,success,94,200,270,22,30,Codex-GPT-6.1-Sol,
+api/gpt-square-MIRROR-043,GPT-6.1 Sol,api,easy,square,MIRROR-043,49,planning_cap,200,200,1959,580,36,Codex-GPT-6.1-Sol,
+api/gpt-hex-MIRROR-042,GPT-6.1 Sol,api,easy,hex,MIRROR-042,127,planning_cap,200,200,2292,252,71,Codex-GPT-6.1-Sol,
+api/gpt-hex-MIRROR-043,GPT-6.1 Sol,api,easy,hex,MIRROR-043,127,planning_cap,200,200,2067,182,84,Codex-GPT-6.1-Sol,
+api/gemini-square-MIRROR-042,Gemini 4 Argon,api,easy,square,MIRROR-042,49,success,174,200,1995,254,35,MC-ModelHub-Gemini-4-Argon,
+api/gemini-square-MIRROR-043,Gemini 4 Argon,api,easy,square,MIRROR-043,49,success,162,200,1261,305,46,MC-ModelHub-Gemini-4-Argon,
+api/gemini-hex-MIRROR-042,Gemini 4 Argon,api,easy,hex,MIRROR-042,127,planning_cap,200,200,2613,413,22,MC-ModelHub-Gemini-4-Argon,
+api/gemini-hex-MIRROR-043,Gemini 4 Argon,api,easy,hex,MIRROR-043,127,planning_cap,200,200,2541,285,10,MC-ModelHub-Gemini-4-Argon,
+api/seed-square-MIRROR-042,Seed 2.1 Pro,api,easy,square,MIRROR-042,49,planning_cap,200,200,561,41,29,Seed2.1-Pro,
+api/seed-square-MIRROR-043,Seed 2.1 Pro,api,easy,square,MIRROR-043,49,planning_cap,200,200,1052,284,24,Seed2.1-Pro,
+api/seed-hex-MIRROR-042,Seed 2.1 Pro,api,easy,hex,MIRROR-042,127,planning_cap,200,200,809,74,13,Seed2.1-Pro,
+api/seed-hex-MIRROR-043,Seed 2.1 Pro,api,easy,hex,MIRROR-043,127,planning_cap,200,200,858,125,4,Seed2.1-Pro,
+astra-codex/square-MIRROR-042,GPT-6 Astra,astra-codex,medium,square,MIRROR-042,121,success,147,500,657,26,119,Codex-GPT-6-Astra-Relay,codex
+astra-codex/square-MIRROR-043,GPT-6 Astra,astra-codex,medium,square,MIRROR-043,121,success,85,500,211,1,82,Codex-GPT-6-Astra-Relay,codex
+astra-codex/hex-MIRROR-042,GPT-6 Astra,astra-codex,medium,hex,MIRROR-042,331,success,246,500,1685,3,264,Codex-GPT-6-Astra-Relay,codex
+astra-codex/hex-MIRROR-043,GPT-6 Astra,astra-codex,medium,hex,MIRROR-043,331,planning_cap,500,500,1078,38,206,Codex-GPT-6-Astra-Relay,codex

@@ -1,0 +1,45 @@
+{
+  "validated_at": "2026-11-04T08:32:09.693636+00:00",
+  "package_version": "0.4.0",
+  "tests_passed": 28,
+  "synthetic_api_only": true,
+  "real_model_calls": 0,
+  "frozen_geometry_and_route_fixtures": 12,
+  "same_host_720p_render": {
+    "frozen_sha256": "99d2678fd1e91a576f3bee76ed674f2776d126db0525796141e1cec8e74aa0a6",
+    "english_sha256": "99d2678fd1e91a576f3bee76ed674f2776d126db0525796141e1cec8e74aa0a6",
+    "identical": true,
+    "portability_limit": "Pixel equality is a same-host check, not a cross-GPU guarantee."
+  },
+  "inference_modules_identical_to_reference": [
+    "runner.py",
+    "settings.py",
+    "rules.py",
+    "native.py",
+    "transport.py",
+    "clients.py"
+  ],
+  "native_and_source_model_ids_preserved": true,
+  "wheel": {
+    "filename": "mirror_maze_benchmark-0.4.0-py3-none-any.whl",
+    "sha256": "d378d77af0540e084aae25224a494f6c78112c09d5287ee785af2ca23be4a367",
+    "clean_install_passed": true,
+    "isolated_python_import": true,
+    "render_1280x720_passed": true,
+    "medium_hex_331_goal_replay_passed": true,
+    "cap500_prompt_passed": true
+  },
+  "random_policy_reproduction": {
+    "trials": 500,
+    "maps": 8,
+    "aggregates_matched": 24,
+    "all_aggregates_and_map_sets_identical": true,
+    "sequence_hashes_identical": true,
+    "replayed_trajectories": 20,
+    "verified_budget_checkpoints": 60,
+    "frozen_rules_sha256": "c98cec60c4f4c96195bfe96c8ae4848471c487ed118afefb3c74a160c948d7e6",
+    "english_rules_sha256": "06e1fd5c800c9fafcfbce302c5e0cf266ab7a9e875ad224dd785704e8bb044f9",
+    "model_or_human_score": false
+  },
+  "export_scope": "Source, examples, tests, and documentation. No inference runs, native profiles, provider reasoning, image caches, or credentials."
+}
