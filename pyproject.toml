@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mirror-maze-benchmark"
+version = "0.4.0"
+description = "Reproducible first-person mirror-maze evaluations with API and optional native harnesses"
+requires-python = ">=3.9"
+dependencies = ["Pillow>=10.1,<13"]
+
+[project.optional-dependencies]
+render = ["playwright>=1.48,<2"]
+video = ["Pillow>=10.1,<13"]
+test = ["pytest>=7,<10"]
+
+[project.scripts]
+mirror-maze-bench = "maze_bench.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+mirror_maze = ["*.mjs", "assets/*"]
+maze_bench = ["defaults.json", "environment-manifest.json", "web/*"]
+

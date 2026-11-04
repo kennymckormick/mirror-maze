@@ -1,0 +1,102 @@
+{
+  "source": "Frozen environment0.2.0 before English localization",
+  "scope": "All cell geometry/landmarks/connectivity, initial pose, goal, geometry counts, and shortest action sequence",
+  "records": [
+    {
+      "topology": "square",
+      "difficulty": "easy",
+      "seed": "MIRROR-042",
+      "cells": 49,
+      "sha256": "736ca74db6dcc7d5b9dfbd8646b1a2c47c78425b671001d78f06517b897e0d65",
+      "solution_sha256": "d83e2ba56359ad07b0348f38002fbbc247c53e9d9f57650fd09f071dea83a064"
+    },
+    {
+      "topology": "square",
+      "difficulty": "easy",
+      "seed": "MIRROR-043",
+      "cells": 49,
+      "sha256": "87b8e70fac1bfb3daba23b2a5f206e5e64f2d8150e5bed173687c0e3d4290202",
+      "solution_sha256": "ece8fd1080c6e065e63776ed09be41fb5d171b89fb91258530eba7a3e30eba94"
+    },
+    {
+      "topology": "square",
+      "difficulty": "medium",
+      "seed": "MIRROR-042",
+      "cells": 121,
+      "sha256": "8f8aae0fee9e3d7e9f94a66e8030468f55d925b079bdf32ea228954023f4beb7",
+      "solution_sha256": "b83e086fa003172268f3fc303e53b12ea9b81daae53bb8521bd1e6d448039fbb"
+    },
+    {
+      "topology": "square",
+      "difficulty": "medium",
+      "seed": "MIRROR-043",
+      "cells": 121,
+      "sha256": "a0ef76564d593865d8708ea29c4250422a72a97247200c6f2c472faf6f68692e",
+      "solution_sha256": "01e35deafba364f65e269b7ac7805d53d59d86dcaa4e2c2d5846046690800471"
+    },
+    {
+      "topology": "hex",
+      "difficulty": "easy",
+      "seed": "MIRROR-042",
+      "cells": 127,
+      "sha256": "173156baf517ef45e388271b6f72b6e311808de9062648048cf9062c1ae541f7",
+      "solution_sha256": "481f42690dc529df178fa372f27af972b00914756a8d23280ca6d8edb55690fc"
+    },
+    {
+      "topology": "hex",
+      "difficulty": "easy",
+      "seed": "MIRROR-043",
+      "cells": 127,
+      "sha256": "29a1ed00d42241b1db0c400ed611010b7d2f5a37fed86af7a425c477fafe3447",
+      "solution_sha256": "ef401bcb6793d7ed058a5b414034ccca59561f1933ed8929cbd67fc40fcda71a"
+    },
+    {
+      "topology": "hex",
+      "difficulty": "medium",
+      "seed": "MIRROR-042",
+      "cells": 331,
+      "sha256": "8c4fd0340f1e8dc02e95b99170db504ed56b88514fa72bd65bb9675efc8b6325",
+      "solution_sha256": "91e7d27e5fa8d5eba15de5cc6e9001b8f22762ae5a0afd79593229b36e7eb697"
+    },
+    {
+      "topology": "hex",
+      "difficulty": "medium",
+      "seed": "MIRROR-043",
+      "cells": 331,
+      "sha256": "393cca3014c970bf3495f3d8464c1ae861de068e71bfc4e159b9426e59c76740",
+      "solution_sha256": "076291dfb4f12fd1c552ac827f331a0745e11c6f2ca99539760e351251fd42d8"
+    },
+    {
+      "topology": "triangle",
+      "difficulty": "easy",
+      "seed": "MIRROR-042",
+      "cells": 294,
+      "sha256": "6b4a5634d558fe770366ad9806ee3596edbdc20245177e120b4e26c0d556411a",
+      "solution_sha256": "1867fd49b363d9717bad8f00b625877d385321e0d4bb34e043840f5a299fe9a8"
+    },
+    {
+      "topology": "triangle",
+      "difficulty": "easy",
+      "seed": "MIRROR-043",
+      "cells": 294,
+      "sha256": "4593b2d43ebe6a1aae41685d939e7f499b2203fb4efbebaca6602a282e45ffb3",
+      "solution_sha256": "39871ebbf03f63c2c44734df6027ce39a2a58394fda6db99a01598134de7f83a"
+    },
+    {
+      "topology": "triangle",
+      "difficulty": "medium",
+      "seed": "MIRROR-042",
+      "cells": 726,
+      "sha256": "5ae55b60a1db461d94a2081d3299dee72b6f28d147ef9a14139bd782b6ed3de7",
+      "solution_sha256": "e30c8bc983e2a6f7585bde1ce9f89386cd66f7bab14b47c49f524c7a0496bf47"
+    },
+    {
+      "topology": "triangle",
+      "difficulty": "medium",
+      "seed": "MIRROR-043",
+      "cells": 726,
+      "sha256": "83bda6324684cef4295ad7c9047564eb2a3c8302def8c7f6095ce7f4a0832933",
+      "solution_sha256": "06ae601d7369e71a2495549d06e3106ec609dd20f9e24d56e842f5a7eb9fe3c9"
+    }
+  ]
+}

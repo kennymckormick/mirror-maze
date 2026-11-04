@@ -1,0 +1,28 @@
+<!doctype html><html><head><meta charset="UTF-8"><title>Mirror Maze renderer</title><style>html,body{margin:0;background:#101d24}canvas{display:block}</style></head><body><canvas id="observation"></canvas><script type="module">
+import {makeMaze,angleFor,VERSION} from './maze.js';
+import {MirrorRenderer} from './renderer.js';
+import {drawMinimap} from './minimap.js';
+let renderer,maze,mazeKey;
+window.renderObservation=({snapshot,width=960,height=600,bounces=10,mirror=true,view='first_person'})=>{
+  if(snapshot.environmentVersion!==VERSION)throw new Error('Renderer and environment versions disagree');
+  if(!['first_person','minimap','review'].includes(view))throw new Error('Unknown view');
+  if(!Number.isInteger(bounces)||bounces<1||bounces>12)throw new Error('bounces must be between 1 and 12');
+  const key=JSON.stringify(snapshot.options);if(key!==mazeKey){maze=makeMaze(snapshot.options);mazeKey=key;if(renderer)renderer.setMaze(maze);}
+  const state=snapshot.state;
+  if(!Number.isInteger(state.cell)||!maze.cells[state.cell]||!Number.isInteger(state.heading)||state.heading<0||state.heading>=maze.config.headings)throw new Error('Invalid environment state');
+  const angle=angleFor(maze,state.heading),visited=new Set([maze.start,...snapshot.actions.map(a=>a.after.cell)]);
+  let image;
+  if(view!=='minimap'){
+    if(!renderer){renderer=new MirrorRenderer(document.getElementById('observation'));renderer.setMaze(maze);}
+    renderer.setResolution(width,height);renderer.render({cell:state.cell,position:maze.cells[state.cell].center,angle,bounces,mirror});
+    const error=renderer.gl.getError();if(error)throw new Error('WebGL error '+error);
+    image=renderer.canvas;
+  }
+  if(view!=='first_person'){
+    const map=document.createElement('canvas');map.width=map.height=height;drawMinimap(map,maze,{cell:state.cell,angle,visited});
+    if(view==='minimap')image=map;else{const combined=document.createElement('canvas');combined.width=width+height;combined.height=height;const ctx=combined.getContext('2d');ctx.drawImage(image,0,0);ctx.drawImage(map,width,0);image=combined;}
+  }
+  return {image:image.toDataURL('image/png'),width:image.width,height:image.height,version:VERSION,view};
+};
+window.rendererReady=true;
+</script></body></html>

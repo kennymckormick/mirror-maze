@@ -1,0 +1,15 @@
+.git
+.venv
+.env*
+runs
+artifacts
+videos
+image-cache
+__pycache__
+*.egg-info
+
+
+build
+dist
+site
+review

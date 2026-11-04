@@ -1,0 +1,773 @@
+{
+  "protocol": {
+    "kind": "state_blind_one_decision_protocol_stress_test",
+    "preregistered_at": "2026-11-04T08:05:13.795Z",
+    "trials": 500,
+    "trial_seed_base": 20261104,
+    "trial_seed_last": 20261603,
+    "action_budgets": [
+      1000,
+      10000,
+      100000
+    ],
+    "action_space": [
+      "left",
+      "right",
+      "forward"
+    ],
+    "action_distribution": "pseudorandom uniform left/right/forward via xorshift32 and rejection-to-range3",
+    "generator": "xorshift32: x^=x<<13;x^=x>>>17;x^=x<<5; reject4294967295; value%3",
+    "same_sequence_across_maps": true,
+    "sequence_pregenerated_before_simulation": true,
+    "policy_reads_state": false,
+    "policy_reads_images": false,
+    "policy_reads_goal": false,
+    "host_stops_at_actual_goal": true,
+    "planning_decisions_per_trial": 1,
+    "no_token_or_compute_matching": true,
+    "model_results_modified": false,
+    "rules_sha256": "c98cec60c4f4c96195bfe96c8ae4848471c487ed118afefb3c74a160c948d7e6",
+    "maps": [
+      {
+        "id": "easy/square-MIRROR-042",
+        "difficulty": "easy",
+        "topology": "square",
+        "seed": "MIRROR-042",
+        "sideLength": 7
+      },
+      {
+        "id": "easy/square-MIRROR-043",
+        "difficulty": "easy",
+        "topology": "square",
+        "seed": "MIRROR-043",
+        "sideLength": 7
+      },
+      {
+        "id": "easy/hex-MIRROR-042",
+        "difficulty": "easy",
+        "topology": "hex",
+        "seed": "MIRROR-042",
+        "sideLength": 7
+      },
+      {
+        "id": "easy/hex-MIRROR-043",
+        "difficulty": "easy",
+        "topology": "hex",
+        "seed": "MIRROR-043",
+        "sideLength": 7
+      },
+      {
+        "id": "medium/square-MIRROR-042",
+        "difficulty": "medium",
+        "topology": "square",
+        "seed": "MIRROR-042",
+        "sideLength": 11
+      },
+      {
+        "id": "medium/square-MIRROR-043",
+        "difficulty": "medium",
+        "topology": "square",
+        "seed": "MIRROR-043",
+        "sideLength": 11
+      },
+      {
+        "id": "medium/hex-MIRROR-042",
+        "difficulty": "medium",
+        "topology": "hex",
+        "seed": "MIRROR-042",
+        "sideLength": 11
+      },
+      {
+        "id": "medium/hex-MIRROR-043",
+        "difficulty": "medium",
+        "topology": "hex",
+        "seed": "MIRROR-043",
+        "sideLength": 11
+      }
+    ]
+  },
+  "protocol_sha256": "940757e943918de7e76acb6a4c8c59dcf27a8495a859d1d7633fe69096f2cdf0",
+  "sample_sequence_sha256": {
+    "20261104": "c4829595295f4a6e516c1389a6147dbee6e17f03da0facf233c93b79240e67dd"
+  },
+  "aggregates": [
+    {
+      "map": "easy/square-MIRROR-042",
+      "difficulty": "easy",
+      "topology": "square",
+      "seed": "MIRROR-042",
+      "cells": 49,
+      "budget": 1000,
+      "trials": 500,
+      "solved": 23,
+      "solve_fraction": 0.046,
+      "wilson95": [
+        0.030845108370816204,
+        0.06807779276827323
+      ],
+      "mean_executed_actions": 990.476,
+      "mean_collisions": 209.894,
+      "mean_moves": 119.246,
+      "mean_coverage": 0.4067755102040817,
+      "mean_actions_if_solved": 792.9565217391304,
+      "median_actions_if_solved": 837,
+      "mean_collisions_if_solved": 156.6086956521739,
+      "oracle_actions": 44,
+      "oracle_moves": 29
+    },
+    {
+      "map": "easy/square-MIRROR-042",
+      "difficulty": "easy",
+      "topology": "square",
+      "seed": "MIRROR-042",
+      "cells": 49,
+      "budget": 10000,
+      "trials": 500,
+      "solved": 356,
+      "solve_fraction": 0.712,
+      "wilson95": [
+        0.6708105507601558,
+        0.749956728884146
+      ],
+      "mean_executed_actions": 5844.562,
+      "mean_collisions": 1231.114,
+      "mean_moves": 715.942,
+      "mean_coverage": 0.8530204081632674,
+      "mean_actions_if_solved": 4163.710674157303,
+      "median_actions_if_solved": 3698,
+      "mean_collisions_if_solved": 869.064606741573,
+      "oracle_actions": 44,
+      "oracle_moves": 29
+    },
+    {
+      "map": "easy/square-MIRROR-042",
+      "difficulty": "easy",
+      "topology": "square",
+      "seed": "MIRROR-042",
+      "cells": 49,
+      "budget": 100000,
+      "trials": 500,
+      "solved": 500,
+      "solve_fraction": 1,
+      "wilson95": [
+        0.9923756595384479,
+        1
+      ],
+      "mean_executed_actions": 8145.072,
+      "mean_collisions": 1718.712,
+      "mean_moves": 994.272,
+      "mean_coverage": 0.890653061224492,
+      "mean_actions_if_solved": 8145.072,
+      "median_actions_if_solved": 5340,
+      "mean_collisions_if_solved": 1718.712,
+      "oracle_actions": 44,
+      "oracle_moves": 29
+    },
+    {
+      "map": "easy/square-MIRROR-043",
+      "difficulty": "easy",
+      "topology": "square",
+      "seed": "MIRROR-043",
+      "cells": 49,
+      "budget": 1000,
+      "trials": 500,
+      "solved": 1,
+      "solve_fraction": 0.002,
+      "wilson95": [
+        0.00035313639455927456,
+        0.011240706705146758
+      ],
+      "mean_executed_actions": 999.47,
+      "mean_collisions": 206.78,
+      "mean_moves": 125.382,
+      "mean_coverage": 0.393142857142857,
+      "mean_actions_if_solved": 735,
+      "median_actions_if_solved": 735,
+      "mean_collisions_if_solved": 143,
+      "oracle_actions": 64,
+      "oracle_moves": 41
+    },
+    {
+      "map": "easy/square-MIRROR-043",
+      "difficulty": "easy",
+      "topology": "square",
+      "seed": "MIRROR-043",
+      "cells": 49,
+      "budget": 10000,
+      "trials": 500,
+      "solved": 319,
+      "solve_fraction": 0.638,
+      "wilson95": [
+        0.5949717262107974,
+        0.6789239558218143
+      ],
+      "mean_executed_actions": 7028.228,
+      "mean_collisions": 1425.912,
+      "mean_moves": 917.216,
+      "mean_coverage": 0.897428571428574,
+      "mean_actions_if_solved": 5342.050156739812,
+      "median_actions_if_solved": 5346,
+      "mean_collisions_if_solved": 1082.8150470219437,
+      "oracle_actions": 64,
+      "oracle_moves": 41
+    },
+    {
+      "map": "easy/square-MIRROR-043",
+      "difficulty": "easy",
+      "topology": "square",
+      "seed": "MIRROR-043",
+      "cells": 49,
+      "budget": 100000,
+      "trials": 500,
+      "solved": 500,
+      "solve_fraction": 1,
+      "wilson95": [
+        0.9923756595384479,
+        1
+      ],
+      "mean_executed_actions": 9390.608,
+      "mean_collisions": 1902.832,
+      "mean_moves": 1227.672,
+      "mean_coverage": 0.9826938775510228,
+      "mean_actions_if_solved": 9390.608,
+      "median_actions_if_solved": 7451,
+      "mean_collisions_if_solved": 1902.832,
+      "oracle_actions": 64,
+      "oracle_moves": 41
+    },
+    {
+      "map": "easy/hex-MIRROR-042",
+      "difficulty": "easy",
+      "topology": "hex",
+      "seed": "MIRROR-042",
+      "cells": 127,
+      "budget": 1000,
+      "trials": 500,
+      "solved": 0,
+      "solve_fraction": 0,
+      "wilson95": [
+        4.336808689942018e-19,
+        0.007624340461552241
+      ],
+      "mean_executed_actions": 1000,
+      "mean_collisions": 261.966,
+      "mean_moves": 70.378,
+      "mean_coverage": 0.11614173228346501,
+      "mean_actions_if_solved": null,
+      "median_actions_if_solved": null,
+      "mean_collisions_if_solved": null,
+      "oracle_actions": 157,
+      "oracle_moves": 75
+    },
+    {
+      "map": "easy/hex-MIRROR-042",
+      "difficulty": "easy",
+      "topology": "hex",
+      "seed": "MIRROR-042",
+      "cells": 127,
+      "budget": 10000,
+      "trials": 500,
+      "solved": 23,
+      "solve_fraction": 0.046,
+      "wilson95": [
+        0.030845108370816204,
+        0.06807779276827323
+      ],
+      "mean_executed_actions": 9892.366,
+      "mean_collisions": 2594.62,
+      "mean_moves": 703.122,
+      "mean_coverage": 0.4215275590551182,
+      "mean_actions_if_solved": 7660.130434782609,
+      "median_actions_if_solved": 7733,
+      "mean_collisions_if_solved": 1984.0869565217392,
+      "oracle_actions": 157,
+      "oracle_moves": 75
+    },
+    {
+      "map": "easy/hex-MIRROR-042",
+      "difficulty": "easy",
+      "topology": "hex",
+      "seed": "MIRROR-042",
+      "cells": 127,
+      "budget": 100000,
+      "trials": 500,
+      "solved": 437,
+      "solve_fraction": 0.874,
+      "wilson95": [
+        0.8420322822801359,
+        0.900264711054623
+      ],
+      "mean_executed_actions": 46966.718,
+      "mean_collisions": 12370.15,
+      "mean_moves": 3286.164,
+      "mean_coverage": 0.852488188976379,
+      "mean_actions_if_solved": 39321.187643020596,
+      "median_actions_if_solved": 31978,
+      "mean_collisions_if_solved": 10344.073226544622,
+      "oracle_actions": 157,
+      "oracle_moves": 75
+    },
+    {
+      "map": "easy/hex-MIRROR-043",
+      "difficulty": "easy",
+      "topology": "hex",
+      "seed": "MIRROR-043",
+      "cells": 127,
+      "budget": 1000,
+      "trials": 500,
+      "solved": 0,
+      "solve_fraction": 0,
+      "wilson95": [
+        4.336808689942018e-19,
+        0.007624340461552241
+      ],
+      "mean_executed_actions": 1000,
+      "mean_collisions": 269.944,
+      "mean_moves": 62.4,
+      "mean_coverage": 0.10738582677165408,
+      "mean_actions_if_solved": null,
+      "median_actions_if_solved": null,
+      "mean_collisions_if_solved": null,
+      "oracle_actions": 200,
+      "oracle_moves": 87
+    },
+    {
+      "map": "easy/hex-MIRROR-043",
+      "difficulty": "easy",
+      "topology": "hex",
+      "seed": "MIRROR-043",
+      "cells": 127,
+      "budget": 10000,
+      "trials": 500,
+      "solved": 3,
+      "solve_fraction": 0.006,
+      "wilson95": [
+        0.0020425962719602363,
+        0.01749025210405338
+      ],
+      "mean_executed_actions": 9989.654,
+      "mean_collisions": 2647.04,
+      "mean_moves": 682.9,
+      "mean_coverage": 0.42185826771653523,
+      "mean_actions_if_solved": 8275.666666666666,
+      "median_actions_if_solved": 8118,
+      "mean_collisions_if_solved": 2219.6666666666665,
+      "oracle_actions": 200,
+      "oracle_moves": 87
+    },
+    {
+      "map": "easy/hex-MIRROR-043",
+      "difficulty": "easy",
+      "topology": "hex",
+      "seed": "MIRROR-043",
+      "cells": 127,
+      "budget": 100000,
+      "trials": 500,
+      "solved": 456,
+      "solve_fraction": 0.912,
+      "wilson95": [
+        0.8839235279346099,
+        0.9337940155250711
+      ],
+      "mean_executed_actions": 46312.728,
+      "mean_collisions": 12273.336,
+      "mean_moves": 3163.734,
+      "mean_coverage": 0.9269133858267748,
+      "mean_actions_if_solved": 41132.37719298246,
+      "median_actions_if_solved": 36898.5,
+      "mean_collisions_if_solved": 10902.736842105263,
+      "oracle_actions": 200,
+      "oracle_moves": 87
+    },
+    {
+      "map": "medium/square-MIRROR-042",
+      "difficulty": "medium",
+      "topology": "square",
+      "seed": "MIRROR-042",
+      "cells": 121,
+      "budget": 1000,
+      "trials": 500,
+      "solved": 0,
+      "solve_fraction": 0,
+      "wilson95": [
+        4.336808689942018e-19,
+        0.007624340461552241
+      ],
+      "mean_executed_actions": 1000,
+      "mean_collisions": 213.252,
+      "mean_moves": 119.092,
+      "mean_coverage": 0.15327272727272723,
+      "mean_actions_if_solved": null,
+      "median_actions_if_solved": null,
+      "mean_collisions_if_solved": null,
+      "oracle_actions": 131,
+      "oracle_moves": 77
+    },
+    {
+      "map": "medium/square-MIRROR-042",
+      "difficulty": "medium",
+      "topology": "square",
+      "seed": "MIRROR-042",
+      "cells": 121,
+      "budget": 10000,
+      "trials": 500,
+      "solved": 64,
+      "solve_fraction": 0.128,
+      "wilson95": [
+        0.10152682399523652,
+        0.16014568530815834
+      ],
+      "mean_executed_actions": 9644.77,
+      "mean_collisions": 2042.82,
+      "mean_moves": 1171.952,
+      "mean_coverage": 0.5516694214876038,
+      "mean_actions_if_solved": 7224.765625,
+      "median_actions_if_solved": 7373.5,
+      "mean_collisions_if_solved": 1505.609375,
+      "oracle_actions": 131,
+      "oracle_moves": 77
+    },
+    {
+      "map": "medium/square-MIRROR-042",
+      "difficulty": "medium",
+      "topology": "square",
+      "seed": "MIRROR-042",
+      "cells": 121,
+      "budget": 100000,
+      "trials": 500,
+      "solved": 458,
+      "solve_fraction": 0.916,
+      "wilson95": [
+        0.888400685539819,
+        0.9372558631961696
+      ],
+      "mean_executed_actions": 38875.958,
+      "mean_collisions": 8296.804,
+      "mean_moves": 4668.236,
+      "mean_coverage": 0.9138347107438037,
+      "mean_actions_if_solved": 33270.696506550215,
+      "median_actions_if_solved": 27683,
+      "mean_collisions_if_solved": 7084.386462882096,
+      "oracle_actions": 131,
+      "oracle_moves": 77
+    },
+    {
+      "map": "medium/square-MIRROR-043",
+      "difficulty": "medium",
+      "topology": "square",
+      "seed": "MIRROR-043",
+      "cells": 121,
+      "budget": 1000,
+      "trials": 500,
+      "solved": 0,
+      "solve_fraction": 0,
+      "wilson95": [
+        4.336808689942018e-19,
+        0.007624340461552241
+      ],
+      "mean_executed_actions": 1000,
+      "mean_collisions": 210.356,
+      "mean_moves": 121.988,
+      "mean_coverage": 0.16011570247933873,
+      "mean_actions_if_solved": null,
+      "median_actions_if_solved": null,
+      "mean_collisions_if_solved": null,
+      "oracle_actions": 122,
+      "oracle_moves": 71
+    },
+    {
+      "map": "medium/square-MIRROR-043",
+      "difficulty": "medium",
+      "topology": "square",
+      "seed": "MIRROR-043",
+      "cells": 121,
+      "budget": 10000,
+      "trials": 500,
+      "solved": 50,
+      "solve_fraction": 0.1,
+      "wilson95": [
+        0.07667756273730172,
+        0.1294219096319401
+      ],
+      "mean_executed_actions": 9741.164,
+      "mean_collisions": 2044.512,
+      "mean_moves": 1203.196,
+      "mean_coverage": 0.5410247933884297,
+      "mean_actions_if_solved": 7411.64,
+      "median_actions_if_solved": 7576.5,
+      "mean_collisions_if_solved": 1543.36,
+      "oracle_actions": 122,
+      "oracle_moves": 71
+    },
+    {
+      "map": "medium/square-MIRROR-043",
+      "difficulty": "medium",
+      "topology": "square",
+      "seed": "MIRROR-043",
+      "cells": 121,
+      "budget": 100000,
+      "trials": 500,
+      "solved": 490,
+      "solve_fraction": 0.98,
+      "wilson95": [
+        0.9635798167531208,
+        0.9891008164037892
+      ],
+      "mean_executed_actions": 32346.834,
+      "mean_collisions": 6763.838,
+      "mean_moves": 4019.25,
+      "mean_coverage": 0.9178181818181836,
+      "mean_actions_if_solved": 30966.157142857144,
+      "median_actions_if_solved": 26999,
+      "mean_collisions_if_solved": 6473.010204081633,
+      "oracle_actions": 122,
+      "oracle_moves": 71
+    },
+    {
+      "map": "medium/hex-MIRROR-042",
+      "difficulty": "medium",
+      "topology": "hex",
+      "seed": "MIRROR-042",
+      "cells": 331,
+      "budget": 1000,
+      "trials": 500,
+      "solved": 0,
+      "solve_fraction": 0,
+      "wilson95": [
+        4.336808689942018e-19,
+        0.007624340461552241
+      ],
+      "mean_executed_actions": 1000,
+      "mean_collisions": 261.804,
+      "mean_moves": 70.54,
+      "mean_coverage": 0.04398187311178265,
+      "mean_actions_if_solved": null,
+      "median_actions_if_solved": null,
+      "mean_collisions_if_solved": null,
+      "oracle_actions": 500,
+      "oracle_moves": 234
+    },
+    {
+      "map": "medium/hex-MIRROR-042",
+      "difficulty": "medium",
+      "topology": "hex",
+      "seed": "MIRROR-042",
+      "cells": 331,
+      "budget": 10000,
+      "trials": 500,
+      "solved": 0,
+      "solve_fraction": 0,
+      "wilson95": [
+        4.336808689942018e-19,
+        0.007624340461552241
+      ],
+      "mean_executed_actions": 10000,
+      "mean_collisions": 2615.016,
+      "mean_moves": 718.404,
+      "mean_coverage": 0.14283987915407878,
+      "mean_actions_if_solved": null,
+      "median_actions_if_solved": null,
+      "mean_collisions_if_solved": null,
+      "oracle_actions": 500,
+      "oracle_moves": 234
+    },
+    {
+      "map": "medium/hex-MIRROR-042",
+      "difficulty": "medium",
+      "topology": "hex",
+      "seed": "MIRROR-042",
+      "cells": 331,
+      "budget": 100000,
+      "trials": 500,
+      "solved": 75,
+      "solve_fraction": 0.15,
+      "wilson95": [
+        0.12137595769138819,
+        0.18396108063169836
+      ],
+      "mean_executed_actions": 97105.066,
+      "mean_collisions": 25527.004,
+      "mean_moves": 6842.022,
+      "mean_coverage": 0.5805317220543804,
+      "mean_actions_if_solved": 80700.44,
+      "median_actions_if_solved": 83408,
+      "mean_collisions_if_solved": 21208.626666666667,
+      "oracle_actions": 500,
+      "oracle_moves": 234
+    },
+    {
+      "map": "medium/hex-MIRROR-043",
+      "difficulty": "medium",
+      "topology": "hex",
+      "seed": "MIRROR-043",
+      "cells": 331,
+      "budget": 1000,
+      "trials": 500,
+      "solved": 0,
+      "solve_fraction": 0,
+      "wilson95": [
+        4.336808689942018e-19,
+        0.007624340461552241
+      ],
+      "mean_executed_actions": 1000,
+      "mean_collisions": 271.064,
+      "mean_moves": 61.28,
+      "mean_coverage": 0.037655589123867225,
+      "mean_actions_if_solved": null,
+      "median_actions_if_solved": null,
+      "mean_collisions_if_solved": null,
+      "oracle_actions": 479,
+      "oracle_moves": 221
+    },
+    {
+      "map": "medium/hex-MIRROR-043",
+      "difficulty": "medium",
+      "topology": "hex",
+      "seed": "MIRROR-043",
+      "cells": 331,
+      "budget": 10000,
+      "trials": 500,
+      "solved": 0,
+      "solve_fraction": 0,
+      "wilson95": [
+        4.336808689942018e-19,
+        0.007624340461552241
+      ],
+      "mean_executed_actions": 10000,
+      "mean_collisions": 2665.732,
+      "mean_moves": 667.688,
+      "mean_coverage": 0.13436858006042335,
+      "mean_actions_if_solved": null,
+      "median_actions_if_solved": null,
+      "mean_collisions_if_solved": null,
+      "oracle_actions": 479,
+      "oracle_moves": 221
+    },
+    {
+      "map": "medium/hex-MIRROR-043",
+      "difficulty": "medium",
+      "topology": "hex",
+      "seed": "MIRROR-043",
+      "cells": 331,
+      "budget": 100000,
+      "trials": 500,
+      "solved": 26,
+      "solve_fraction": 0.052,
+      "wilson95": [
+        0.035730265115705276,
+        0.07510114393784553
+      ],
+      "mean_executed_actions": 98823.306,
+      "mean_collisions": 26059.978,
+      "mean_moves": 6883.24,
+      "mean_coverage": 0.4986042296072526,
+      "mean_actions_if_solved": 77371.26923076923,
+      "median_actions_if_solved": 75523.5,
+      "mean_collisions_if_solved": 20410.5,
+      "oracle_actions": 479,
+      "oracle_moves": 221
+    }
+  ],
+  "map_set_events": [
+    {
+      "difficulty": "easy",
+      "budget": 1000,
+      "trials": 500,
+      "maps_per_trial": 4,
+      "mean_cases_solved": 0.048,
+      "trial_fraction_solving_all_maps": 0,
+      "solved_count_histogram": {
+        "0": 476,
+        "1": 24,
+        "2": 0,
+        "3": 0,
+        "4": 0
+      }
+    },
+    {
+      "difficulty": "easy",
+      "budget": 10000,
+      "trials": 500,
+      "maps_per_trial": 4,
+      "mean_cases_solved": 1.402,
+      "trial_fraction_solving_all_maps": 0,
+      "solved_count_histogram": {
+        "0": 47,
+        "1": 215,
+        "2": 228,
+        "3": 10,
+        "4": 0
+      }
+    },
+    {
+      "difficulty": "easy",
+      "budget": 100000,
+      "trials": 500,
+      "maps_per_trial": 4,
+      "mean_cases_solved": 3.786,
+      "trial_fraction_solving_all_maps": 0.81,
+      "solved_count_histogram": {
+        "0": 0,
+        "1": 0,
+        "2": 12,
+        "3": 83,
+        "4": 405
+      }
+    },
+    {
+      "difficulty": "medium",
+      "budget": 1000,
+      "trials": 500,
+      "maps_per_trial": 4,
+      "mean_cases_solved": 0,
+      "trial_fraction_solving_all_maps": 0,
+      "solved_count_histogram": {
+        "0": 500,
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0
+      }
+    },
+    {
+      "difficulty": "medium",
+      "budget": 10000,
+      "trials": 500,
+      "maps_per_trial": 4,
+      "mean_cases_solved": 0.228,
+      "trial_fraction_solving_all_maps": 0,
+      "solved_count_histogram": {
+        "0": 392,
+        "1": 102,
+        "2": 6,
+        "3": 0,
+        "4": 0
+      }
+    },
+    {
+      "difficulty": "medium",
+      "budget": 100000,
+      "trials": 500,
+      "maps_per_trial": 4,
+      "mean_cases_solved": 2.098,
+      "trial_fraction_solving_all_maps": 0.006,
+      "solved_count_histogram": {
+        "0": 1,
+        "1": 39,
+        "2": 373,
+        "3": 84,
+        "4": 3
+      }
+    }
+  ],
+  "interpretation": [
+    "A single pre-generated action sequence is reused unchanged across all maps for each trial; the action policy has no state, image or goal access.",
+    "This is a protocol stress test implemented in code, not a model or human evaluation; it is not token-, latency- or compute-matched to model runs.",
+    "Solve fractions are conditional on these fixed maps and this stochastic generator. They are not estimates for a representative maze distribution.",
+    "Under the current unbounded sequence rule, one planning decision can buy many physical attempts. A high solve fraction at huge action cost does not show spatial understanding.",
+    "All model and harness results remain frozen; no planning budget or score has been changed."
+  ],
+  "reference_replayed_trajectories": 20,
+  "reference_verified_budget_checkpoints": 60,
+  "reference_scope": "Original frozen English-insights experiment; current localized engine has a different byte hash but matching semantic geometry fixtures."
+}

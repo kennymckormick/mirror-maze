@@ -1,0 +1,89 @@
+{
+  "schema": "mirror-maze-benchmark/v3",
+  "defaults": {
+    "max_planning": 200,
+    "max_body_bytes": 120000000,
+    "request_timeout": 3600,
+    "request_attempts": 5,
+    "harness_timeout": 3600,
+    "image_history": "last_batch",
+    "resolution": [
+      1280,
+      720
+    ],
+    "reflections": 10,
+    "side_length": 7,
+    "current_view_pinned": true,
+    "retry_trim_after_transient_failures": 2,
+    "planning_timeout": 3600,
+    "max_output_budget": 131072
+  },
+  "topologies": [
+    "square",
+    "hex"
+  ],
+  "seeds": [
+    "MIRROR-042",
+    "MIRROR-043"
+  ],
+  "models": [
+    {
+      "model_key": "deepseek",
+      "model_label": "DeepSeek-V4.1-Flash (alternate source)",
+      "native_model": "DeepSeek-V4.1-Flash-1017-Ark",
+      "source_alias": "DeepSeek-V4.1-Flash",
+      "harness": "claude",
+      "api_protocol": "messages",
+      "request_params": {
+        "max_tokens": 32000
+      },
+      "display_name": "DeepSeek V4.1 Flash (alternate source)"
+    },
+    {
+      "model_key": "kimi",
+      "model_label": "kimi-k3.1-pro",
+      "source_alias": "Kimi-K3.1-Pro-Ark",
+      "harness": "claude",
+      "api_protocol": "messages",
+      "request_params": {
+        "max_tokens": 32000
+      },
+      "display_name": "Kimi K3.1 Pro"
+    },
+    {
+      "model_key": "gpt",
+      "model_label": "gpt-6.1-sol",
+      "source_alias": "Codex-GPT-6.1-Sol",
+      "harness": "codex",
+      "api_protocol": "responses",
+      "max_images": 120,
+      "request_params": {},
+      "display_name": "GPT-6.1 Sol"
+    },
+    {
+      "model_key": "gemini",
+      "model_label": "gemini-4-argon",
+      "source_alias": "MC-ModelHub-Gemini-4-Argon",
+      "harness": "agy",
+      "api_protocol": "chat",
+      "effort": "medium",
+      "request_params": {
+        "max_completion_tokens": 65536,
+        "reasoning_effort": "medium"
+      },
+      "max_output_budget": 65536,
+      "display_name": "Gemini 4 Argon"
+    },
+    {
+      "model_key": "seed",
+      "model_label": "seed-2.1-pro",
+      "source_alias": "Seed2.1-Pro",
+      "harness": "claude",
+      "api_protocol": "messages",
+      "request_params": {
+        "max_tokens": 32000
+      },
+      "display_name": "Seed 2.1 Pro"
+    }
+  ]
+}

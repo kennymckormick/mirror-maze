@@ -1,0 +1,42 @@
+{
+  "schema": "mirror-maze-benchmark/v3",
+  "defaults": {
+    "max_planning": 200,
+    "max_body_bytes": 120000000,
+    "request_timeout": 3600,
+    "request_attempts": 5,
+    "harness_timeout": 3600,
+    "image_history": "last_batch",
+    "resolution": [
+      1280,
+      720
+    ],
+    "reflections": 10,
+    "side_length": 7,
+    "current_view_pinned": true,
+    "retry_trim_after_transient_failures": 2,
+    "planning_timeout": 3600,
+    "max_output_budget": 131072
+  },
+  "topologies": [
+    "square",
+    "hex"
+  ],
+  "seeds": [
+    "MIRROR-042",
+    "MIRROR-043"
+  ],
+  "models": [
+    {
+      "model_key": "my-model",
+      "model_label": "YOUR_VISION_MODEL",
+      "source_alias": "YOUR_VISION_MODEL",
+      "harness": null,
+      "api_protocol": "chat",
+      "request_params": {
+        "max_completion_tokens": 32000
+      },
+      "display_name": "YOUR_VISION_MODEL"
+    }
+  ]
+}

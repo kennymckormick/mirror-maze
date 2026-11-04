@@ -1,0 +1,80 @@
+{
+  "environment_version": "0.2.0",
+  "package_version": "0.4.0",
+  "presentation_language": "en",
+  "description": "English presentation/docs plus portable preview and generic review reporting. Geometry, actions, model-facing rules and native/source IDs retain the reference behavior. Asset byte hashes differ after localization.",
+  "sha256": {
+    "maze_bench/clients.py": "e83e80d0591370f54251b35dea3896545aebbde888a25f7147dc90c0fce6ec8d",
+    "maze_bench/native.py": "09a4a0a1dcf77cd9ba0e30305dee8b9107a87f51004159a5e347bb35b0df4b9f",
+    "maze_bench/rules.py": "f16f3a6aeb7291652cf37f47b37e7c3390f6a35d70ca2e90d966392cc505a095",
+    "maze_bench/runner.py": "a79e26fe4c6d03ce218ebc62dbe5d771e2944ee96d31b0af0aaa89bf1ca1cc0f",
+    "maze_bench/settings.py": "e23b00510f461145adc0c63ac4c65c3bfa6b0774c7b9f3fc4fc8e51e132a70f3",
+    "maze_bench/transport.py": "cdf4ef4e31c178e81cb84cabcc94c5fbb747ae8eb40808c24eaff8ad3cffdc7d",
+    "mirror_maze/__init__.py": "0f79e7704b5cb843fdf4b53ce1a8e8db541bcbd8ab7b8163e5c19bf1ce2939dc",
+    "mirror_maze/assets/app.js": "e1876397a53bf88663c7981f0bd02f418342eca21ecc7bef2605ad13bc1121ff",
+    "mirror_maze/assets/index.html": "fc65233e1737f70460493d5a76fd7c042236f975d8e30d8d176d7ba9985ccd5f",
+    "mirror_maze/assets/maze.js": "06e1fd5c800c9fafcfbce302c5e0cf266ab7a9e875ad224dd785704e8bb044f9",
+    "mirror_maze/assets/minimap.js": "317d6f0c2bed034eb959dca7136af5417873054742791a311219bc2174ae4ab5",
+    "mirror_maze/assets/package.json": "1239d4d885dcad42201a27ed9324f8f0f760b78700d8db9ced39a511cffe7eae",
+    "mirror_maze/assets/python-api.html": "9ff613acc5a64e2bf27ac0743b50159b7161e2f977a5f8bf13282cdbe0b6a238",
+    "mirror_maze/assets/render.html": "eae8d5271679f6ea1752496a2329c58525382c37ef617953d4b6d29d1a2e88e3",
+    "mirror_maze/assets/renderer.js": "b7df7e7db7155ea5b1f097f329f3b7c26c18ab44d941ae698479917f53544658",
+    "mirror_maze/assets/style.css": "cd24b201c8d22f0d63f9c54f6458a313b0b526830ab319af0a3681841e82925a",
+    "mirror_maze/bridge.mjs": "2d81206393b92986b018a88d032ca4a2c1097dcafa054fa027f14449e05aecaa"
+  },
+  "semantic_equivalence_fixture": "tests/fixtures/geometry-v0.2.0.json",
+  "frozen_inference_reference": {
+    "environment_version": "0.2.0",
+    "source_commit": "d4e96d50fff1240feea2e5de09cd0d8cfba1f788",
+    "sha256": {
+      "mirror_maze/__init__.py": "0f79e7704b5cb843fdf4b53ce1a8e8db541bcbd8ab7b8163e5c19bf1ce2939dc",
+      "mirror_maze/bridge.mjs": "68fbe255bc5c6332f85ab153167d3c94074a7a1382c5a4b2122fdf3b7237f927",
+      "mirror_maze/assets/python-api.html": "28e6c4f1424a13bd8f90361599084b8dfcf173f3ba7d2a4f1fd980b8c914db14",
+      "mirror_maze/assets/renderer.js": "ad601489ca4b51dee5efc069fcf0b78ec5accdb3b82a9c7a74f7cff847ce2d28",
+      "mirror_maze/assets/index.html": "b47bf7a808a4a5a4a6c8a7d812ec88821b29a79e47607d1b0b669f9f495bf394",
+      "mirror_maze/assets/package.json": "1239d4d885dcad42201a27ed9324f8f0f760b78700d8db9ced39a511cffe7eae",
+      "mirror_maze/assets/style.css": "cd24b201c8d22f0d63f9c54f6458a313b0b526830ab319af0a3681841e82925a",
+      "mirror_maze/assets/maze.js": "c98cec60c4f4c96195bfe96c8ae4848471c487ed118afefb3c74a160c948d7e6",
+      "mirror_maze/assets/render.html": "bca48df735188151968c4c338f63e54fc6d63c11518e4510ece32fe29f40d0cd",
+      "mirror_maze/assets/app.js": "fdcbc624f521b53f96a4d41bd86d96ef7070e763ab7c4b71addc19fd4359ba85",
+      "mirror_maze/assets/minimap.js": "317d6f0c2bed034eb959dca7136af5417873054742791a311219bc2174ae4ab5"
+    },
+    "harness_binaries": {
+      "codex": {
+        "version": "0.166.0",
+        "sha256": "e14fc83739c13c1074b12bd1acce4010c893c7f6fbfc1593b4a31d74cabb57af",
+        "filename": "codex.js"
+      },
+      "claude": {
+        "version": "2.1.303",
+        "sha256": "d2da3b003dc08b88b7230469014fe3e1dc6fe94bc8f648e89b34175d30269370",
+        "filename": "claude.exe"
+      },
+      "agy": {
+        "version": null,
+        "sha256": "34423fc9b0af3841e7646aa72a2d40ffeab8218b22d1cb99eac7355f9eba31e3",
+        "filename": "agy"
+      }
+    },
+    "base_frozen_sha256": {
+      "mirror_maze/__init__.py": "1e583d09b1533cd55119653fcfa70f78f62c85d84afe3e5ad4f5700fb7fc634e",
+      "mirror_maze/bridge.mjs": "80ac0d035cee014f8b91205a905afda00e9574ef8a34d245ed5f830412cb7684",
+      "mirror_maze/assets/python-api.html": "28e6c4f1424a13bd8f90361599084b8dfcf173f3ba7d2a4f1fd980b8c914db14",
+      "mirror_maze/assets/renderer.js": "ad601489ca4b51dee5efc069fcf0b78ec5accdb3b82a9c7a74f7cff847ce2d28",
+      "mirror_maze/assets/index.html": "b47bf7a808a4a5a4a6c8a7d812ec88821b29a79e47607d1b0b669f9f495bf394",
+      "mirror_maze/assets/package.json": "1239d4d885dcad42201a27ed9324f8f0f760b78700d8db9ced39a511cffe7eae",
+      "mirror_maze/assets/style.css": "cd24b201c8d22f0d63f9c54f6458a313b0b526830ab319af0a3681841e82925a",
+      "mirror_maze/assets/maze.js": "c98cec60c4f4c96195bfe96c8ae4848471c487ed118afefb3c74a160c948d7e6",
+      "mirror_maze/assets/render.html": "bca48df735188151968c4c338f63e54fc6d63c11518e4510ece32fe29f40d0cd",
+      "mirror_maze/assets/app.js": "fdcbc624f521b53f96a4d41bd86d96ef7070e763ab7c4b71addc19fd4359ba85",
+      "mirror_maze/assets/minimap.js": "317d6f0c2bed034eb959dca7136af5417873054742791a311219bc2174ae4ab5"
+    },
+    "host_adapter_extensions": {
+      "description": "Read-only stateOnly export avoids repeatedly serializing action history; maze.js and renderer.js remain identical to v0.2.0 base",
+      "files": [
+        "mirror_maze/bridge.mjs",
+        "mirror_maze/__init__.py"
+      ]
+    }
+  }
+}

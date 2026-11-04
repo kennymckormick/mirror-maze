@@ -1,0 +1,41 @@
+{
+  "schema": "mirror-maze-benchmark/v3",
+  "defaults": {
+    "difficulty": "medium",
+    "side_length": 11,
+    "max_planning": 500,
+    "reflections": 10,
+    "resolution": [
+      1280,
+      720
+    ],
+    "image_history": "last_batch",
+    "max_body_bytes": 120000000,
+    "current_view_pinned": true,
+    "request_timeout": 3600,
+    "planning_timeout": 3600,
+    "harness_timeout": 3600,
+    "request_attempts": 5,
+    "retry_trim_after_transient_failures": 2
+  },
+  "topologies": [
+    "square",
+    "hex"
+  ],
+  "seeds": [
+    "MIRROR-042",
+    "MIRROR-043"
+  ],
+  "models": [
+    {
+      "model_key": "astra",
+      "model_label": "gpt-6-astra",
+      "source_alias": "Codex-GPT-6-Astra-Relay",
+      "harness": "codex",
+      "api_protocol": "responses",
+      "max_images": 120,
+      "request_params": {},
+      "display_name": "GPT-6 Astra"
+    }
+  ]
+}
