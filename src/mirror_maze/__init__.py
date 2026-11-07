@@ -173,7 +173,8 @@ class MirrorMaze:
                    seed: Optional[str] = None, side_length: Optional[int] = None) -> dict:
         """Start over. Omitted options retain the previous episode's values.
 
-        Providing a difficulty selects its standard side length (7 / 11 / 15).
+        Difficulty selects topology-specific sides: square/triangle 7/11/15,
+        hexagon 5/7/9. Explicit side_length preserves historical geometry.
         An explicit side_length overrides that standard, for research/debugging.
         """
         options = dict(self._options)

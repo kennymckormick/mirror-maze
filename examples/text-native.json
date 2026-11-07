@@ -1,0 +1,62 @@
+{
+  "defaults": {
+    "difficulty": "easy",
+    "difficulty_schedule": "balanced-v1",
+    "planning_timeout": 3600,
+    "harness_timeout": 3600,
+    "request_timeout": 3600,
+    "request_attempts": 5,
+    "max_body_bytes": 120000000
+  },
+  "topologies": [
+    "square",
+    "hex"
+  ],
+  "seeds": [
+    "MIRROR-042",
+    "MIRROR-043"
+  ],
+  "models": [
+    {
+      "model_key": "gpt",
+      "model_label": "gpt-6.1-sol",
+      "display_name": "GPT-6.1 Sol",
+      "harness": "codex",
+      "source_alias": "Codex-GPT-6.1-Sol"
+    },
+    {
+      "model_key": "gemini38",
+      "model_label": "gemini-3.8-flash-medium",
+      "display_name": "Gemini 3.8 Flash",
+      "harness": "agy",
+      "source_alias": "native-agy:gemini-3.8-flash-medium",
+      "native_model": "gemini-3.8-flash-medium",
+      "native_provider": true,
+      "effort": "medium",
+      "recover_verified_denied_empty": true
+    },
+    {
+      "model_key": "deepseek",
+      "model_label": "deepseek-v4.1-flash-1017",
+      "display_name": "DeepSeek V4.1 Flash 1017",
+      "harness": "claude",
+      "source_alias": "DeepSeek-V4.1-Flash-1017-Ark",
+      "text_history_compatibility": "assistant_text_string_v2",
+      "rate_limit_backoff_seconds": 70
+    },
+    {
+      "model_key": "kimi",
+      "model_label": "kimi-k3.1-pro",
+      "display_name": "Kimi K3.1 Pro",
+      "harness": "claude",
+      "source_alias": "Kimi-K3.1-Pro-Ark"
+    },
+    {
+      "model_key": "seed",
+      "model_label": "seed-2.1-pro-0915",
+      "display_name": "Seed 2.1 Pro 0915",
+      "harness": "claude",
+      "source_alias": "Doubao-Seed-2.1-Pro-Ark-Relay"
+    }
+  ]
+}

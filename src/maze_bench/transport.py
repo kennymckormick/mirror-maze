@@ -2,6 +2,7 @@
 import base64,collections,copy,gzip,http.client,http.server,json,struct,threading,time,urllib.parse,urllib.request,urllib.error,uuid
 from pathlib import Path
 from .common import dump,endpoint,sha
+from .settings import upstream_session_key
 
 IMAGE_TYPES={'image','image_url','input_image'}
 
@@ -40,6 +41,12 @@ def metadata_response(data):
             if line[5:].strip()=='[DONE]':done_marker=True
             try:events.append(json.loads(line[5:].strip()))
             except ValueError:pass
+        elif is_stream and line.lstrip().startswith('{'):
+            # Some gateways append an unframed JSON error after SSE chunks.
+            # It remains a provider failure even when earlier text is JSON.
+            try:tail=json.loads(line)
+            except ValueError:continue
+            if isinstance(tail,dict)and tail.get('error'):events.append(tail)
     if not events:
         try:events=[json.loads(data)]
         except ValueError:events=[]
@@ -53,6 +60,7 @@ def metadata_response(data):
         for obj in(e,response,message):
             if isinstance(obj.get('usage'),dict):usage.append(obj['usage'])
         if e.get('error'):error=e['error']
+        if e.get('stop_reason'):finish=e['stop_reason']
         if e.get('type')in('response.completed','response.incomplete','response.failed','message_stop'):terminal=True
         if response.get('status'):finish=(response.get('incomplete_details')or{}).get('reason')or response.get('status')
         if e.get('type')=='response.failed':error=response.get('error')or response.get('status')
@@ -72,6 +80,71 @@ def metadata_response(data):
             if out.get('type')=='message':fallback.extend(b.get('text','')for b in out.get('content',[])if b.get('type')=='output_text')
     return {'reported_models':models,'usage':usage,'response_error':error,'text':''.join(pieces)or ''.join(fallback),'is_stream':is_stream,'terminal':terminal,'finish_status':finish}
 
+
+def complete_json_document(text):
+    """Check syntax only: illegal actions must still receive their penalty."""
+    value=(text or '').strip()
+    if value.startswith('```'):
+        import re
+        match=re.fullmatch(r'```(?:json)?\s*([\s\S]*?)\s*```',value)
+        if not match:return False
+        value=match.group(1)
+    def reject_constant(value):raise ValueError('Non-JSON constant')
+    try:json.loads(value,parse_constant=reject_constant);return True
+    except(ValueError,TypeError):return False
+
+
+def close_chat_stream(data):
+    """Add a client-local end marker; original provider bytes stay archived."""
+    if metadata_response(data)['response_error']:raise ValueError('A provider error cannot be normalized as a completed reply')
+    previous={}
+    for line in data.decode(errors='replace').splitlines():
+        if line.startswith('data:'):
+            try:value=json.loads(line[5:])
+            except ValueError:continue
+            if isinstance(value,dict)and value.get('choices'):previous=value
+    final={k:previous[k]for k in('id','created','model','system_fingerprint')if k in previous}
+    final.update(object='chat.completion.chunk',choices=[{'index':0,'delta':{},'finish_reason':'stop'}])
+    return data.rstrip(b'\r\n')+b'\n\ndata: '+json.dumps(final).encode()+b'\n\ndata: [DONE]\n\n'
+
+
+def closed_json_evidence(call,case,text):
+    return {'rule':'single_complete_json_document_at_observed_eof','source_wire_index':call['index'],
+            'provider_terminal_received':False,'public_text_sha256':__import__('hashlib').sha256(text.encode()).hexdigest(),
+            'private_response_sha256':sha(Path(case)/call['private_response_file'])}
+
+
+def agy_title_request(incoming):
+    system=json.dumps([m.get('content')for m in incoming.get('messages',[])if m.get('role')=='system'],ensure_ascii=False).casefold()
+    return 'you are a conversation title generator'in system and 'short conversation title'in system
+
+
+def message_sse(data):
+    """Serialize one complete Anthropic message as the requested SSE events."""
+    message=json.loads(data);assert message.get('type')=='message'and message.get('role')=='assistant'
+    assert message.get('stop_reason')in('end_turn','stop_sequence','tool_use','max_tokens','refusal')
+    events=[]
+    def emit(kind,**fields):events.append({'type':kind,**fields})
+    initial={**message,'content':[],'stop_reason':None,'stop_sequence':None,'usage':{**message.get('usage',{}),'output_tokens':0}}
+    emit('message_start',message=initial)
+    for index,block in enumerate(message.get('content',[])):
+        kind=block['type']
+        if kind=='text':
+            emit('content_block_start',index=index,content_block={'type':'text','text':''})
+            emit('content_block_delta',index=index,delta={'type':'text_delta','text':block.get('text','')})
+        elif kind=='thinking':
+            emit('content_block_start',index=index,content_block={'type':'thinking','thinking':'','signature':''})
+            emit('content_block_delta',index=index,delta={'type':'thinking_delta','thinking':block.get('thinking','')})
+            if block.get('signature'):emit('content_block_delta',index=index,delta={'type':'signature_delta','signature':block['signature']})
+        elif kind=='tool_use':
+            emit('content_block_start',index=index,content_block={**block,'input':{}})
+            emit('content_block_delta',index=index,delta={'type':'input_json_delta','partial_json':json.dumps(block.get('input',{}),ensure_ascii=False)})
+        else:emit('content_block_start',index=index,content_block=block)
+        emit('content_block_stop',index=index)
+    emit('message_delta',delta={'stop_reason':message['stop_reason'],'stop_sequence':message.get('stop_sequence')},usage={'output_tokens':message.get('usage',{}).get('output_tokens',0)})
+    emit('message_stop')
+    return ''.join('event: '+e['type']+'\ndata: '+json.dumps(e,ensure_ascii=False)+'\n\n'for e in events).encode()
+
 class Transport:
     def __init__(self,key,base_url,model,case,cfg):
         self.key=key;self.base_url=base_url;self.model=model;self.case=Path(case);self.cfg=cfg
@@ -84,6 +157,7 @@ class Transport:
                 for field,value in c.get('requested_settings',{}).items():
                     if field in('max_tokens','max_output_tokens','max_completion_tokens')and isinstance(value,int):self.output_caps[field]=max(self.output_caps.get(field,0),min(self.cfg.get('max_output_budget',131072),value*2))
         self.opener=urllib.request.build_opener(urllib.request.ProxyHandler({}))
+        self.native_replay=cfg.get('_native_wire_replay')
     def set_feed(self,feed):
         self.deadline=time.monotonic()+self.cfg.get('planning_timeout',3600)
         self.round=feed['round'];frames=[]
@@ -108,6 +182,8 @@ class Transport:
         return b''.join(chunks)
     def _body(self,incoming,path,main):
         p=copy.deepcopy(incoming);p['model']=self.model
+        if self.cfg.get('isolate_upstream_session'):
+            p['prompt_cache_key']=upstream_session_key(self.cfg,'main'if main else'title'if agy_title_request(incoming)else'aux')
         if main and not self.cfg.get('harness'):
             for field,value in self.output_caps.items():
                 if field in p:p[field]=max(p[field],value)
@@ -148,16 +224,43 @@ class Transport:
                     m['content']=m.get('content')or'\n'.join(texts)or'Completed a client-side tool operation.'
                 if path=='/v1/messages'and isinstance(m.get('content'),list):
                     m['content']=[b for b in m['content']if b.get('type')in('text','image')]
+            if path=='/v1/messages':
+                body['messages']=[m for m in body.get('messages',[])if not(isinstance(m.get('content'),list)and not m['content'])]
+                for m in body['messages']:
+                    if m.get('role')=='assistant'and isinstance(m.get('content'),list)and all(b.get('type')=='text'for b in m['content']):
+                        m['content']=''.join(b.get('text','')for b in m['content'])
         encoded=json.dumps(body,ensure_ascii=False).encode()
         return encoded
     def request(self,incoming,path,main=True,extra_headers=None):
+        if main and self.native_replay:
+            proof=self.native_replay;self.native_replay=None
+            call=next(c for c in self.calls if c['index']==proof['wire_index'])
+            assert path==call['path']and call['observation_round']==self.round==proof['round']
+            source=self.case/call['private_response_file'];assert sha(source)==proof['private_response_sha256']
+            with gzip.open(source,'rb')as f:data=f.read()
+            meta=metadata_response(data);assert meta['text']and not meta['response_error']
+            self.selection.kept=[self.selection.original[i['index']]for i in call['images']]
+            assert [f['file']for f in self.selection.kept]==[i['file']for i in call['images']]
+            self.selection.drops=call.get('trim_events',[])
+            self.last_delivery={'round':self.round,'request_index':call['index'],'images':call['images'],'trim_events':self.selection.drops,'original_frames':len(self.selection.original)}
+            if proof.get('closed_json_stream_recovery'):
+                assert complete_json_document(meta['text'])
+                meta['closed_json_stream_recovery']=proof['closed_json_stream_recovery']
+                self.last_delivery['closed_json_stream_recovery']=proof['closed_json_stream_recovery']
+            dump(self.case/'native-wire-replay.json',{'round':self.round,'wire_index':call['index'],'original_provider_bytes_sha256':sha(source),'no_new_inference':True,'at':time.time()})
+            return 200,data,meta
         transient=0;max_attempts=self.cfg.get('request_attempts',5)
         # A size rejection must be allowed to prune every available old round.
         max_attempts+=len({f['round']for f in self.selection.kept})if main else 0
         if main and not self.cfg.get('harness'):max_attempts+=3
         for attempt in range(max_attempts):
             body=self._body(incoming,path,main);record={'index':len(self.calls)+1,'observation_round':self.round,'source_alias':self.model,'path':path,'started_at':time.time(),'body_bytes':len(body),'images':[frame_metadata(f)for f in self.selection.kept]if main else[],'trim_events':copy.deepcopy(self.selection.drops)if main else[],'main_inference':main}
+            if self.cfg.get('isolate_upstream_session'):record['upstream_session_key']=upstream_session_key(self.cfg,'main'if main else'title'if agy_title_request(incoming)else'aux')
+            if self.cfg.get('request_structure_diagnostic_round')==self.round:
+                shaped=json.loads(body)
+                record['request_structure']={'top_level_keys':list(shaped),'messages':[{'role':m.get('role'),'content_kind':type(m.get('content')).__name__,'block_types':[b.get('type')for b in m.get('content',[])if isinstance(b,dict)]if isinstance(m.get('content'),list)else None,'empty_content':m.get('content')in([],None,'')}for m in shaped.get('messages',[])]}
             with self.lock:self.calls.append(record);dump(self.log,self.calls)
+            if hasattr(self,'record_request_body'):self.record_request_body(record,body)
             headers={k:v for k,v in(extra_headers or{}).items()if k.lower()not in('authorization','x-api-key','host','connection','content-length','accept-encoding')}
             headers.update({'Authorization':'Bearer '+self.key,'Content-Type':'application/json','Accept-Encoding':'identity'})
             if path=='/v1/messages':headers.update({'x-api-key':self.key,'anthropic-version':'2023-06-01'})
@@ -174,8 +277,12 @@ class Transport:
                 with gzip.open(private/name,'wb',compresslevel=3)as f:f.write(data)
                 record['private_response_file']='private/'+name
             meta=metadata_response(data)
-            if status==200 and meta['is_stream']and not meta['terminal']:meta['response_error']={'type':'truncated_stream','message':'Provider stream ended without a terminal event'}
-            if status==200 and main and not self.cfg.get('harness')and not meta['text']and not meta['response_error']:meta['response_error']={'type':'empty_public_response','message':'Provider returned no public answer; no maze action was executed'}
+            if status==200 and meta['is_stream']and not meta['terminal']and not meta['response_error']:
+                if path=='/v1/chat/completions'and self.cfg.get('recover_closed_json_streams')and record.get('private_response_file')and complete_json_document(meta['text'])and not transport_error:
+                    meta['closed_json_stream_recovery']=closed_json_evidence(record,self.case,meta['text'])
+                    record['closed_json_stream_recovery']=meta['closed_json_stream_recovery']
+                else:meta['response_error']={'type':'truncated_stream','message':'Provider stream ended without a terminal event'}
+            if status==200 and main and(not self.cfg.get('harness')or not data)and not meta['text']and not meta['response_error']:meta['response_error']={'type':'empty_public_response','message':'Provider returned no public answer; no maze action was executed'}
             error=(str(meta['response_error'])if meta['response_error']else data.decode(errors='replace')if status!=200 else'')
             record.update(http_status=status,seconds=time.time()-record['started_at'],response_bytes=len(data),reported_models=meta['reported_models'],usage=meta['usage'],stream_terminal=meta['terminal'],finish_status=meta['finish_status'],public_text_chars=len(meta['text']),planning_timeout=self.cfg.get('planning_timeout',3600),request_timeout=self.cfg.get('request_timeout',3600))
             record['requested_settings']={k:max(incoming[k],self.output_caps.get(k,0))if k in('max_tokens','max_output_tokens','max_completion_tokens')and main and not self.cfg.get('harness')else incoming[k]for k in('max_tokens','max_output_tokens','max_completion_tokens','thinking','reasoning','reasoning_effort','output_config')if k in incoming}
@@ -191,14 +298,22 @@ class Transport:
                     continue
             if status==200 and not meta['response_error']and not transport_error:
                 if main:self.last_delivery={'round':self.round,'request_index':record['index'],'images':record['images'],'trim_events':record['trim_events'],'original_frames':len(self.selection.original)}
+                if main and meta.get('closed_json_stream_recovery'):self.last_delivery['closed_json_stream_recovery']=meta['closed_json_stream_recovery']
                 return status,data,meta
             lower=(error+' '+str(transport_error)).lower();size_error=status==413 or any(s in lower for s in ['context length','context_length','too many images','maximum number of images','request body exceeds','request too large','prompt is too long'])
+            if status==429 and 'individual quota reached'in lower:
+                # Account quota is independent of image size. Preserve the
+                # observation batch and wait before another source request.
+                dump(self.case/'retry-after.json',{'not_before':time.time()+3600,'source_alias':self.model,'observation_round':self.round,'reason':'upstream_account_quota_exhausted','message':'Provider account quota reached; retry the same source after backoff.','recorded_at':time.time()})
+                raise RuntimeError('upstream_account_quota_exhausted; original checkpoint retained, retry deferred for one hour')
             if main and size_error and self.selection.drop_oldest_round('upstream_size_or_context_limit'):continue
-            if status in (None,408,429,500,502,503,504)or any(s in lower for s in ['rate limit','timeout','upstream_unavailable','truncated_stream','incompleteread','empty_public_response']):
+            if status in (None,408,429,500,502,503,504)or any(s in lower for s in ['rate limit','rate_limit','throughput limit','timeout','upstream_unavailable','truncated_stream','incompleteread','empty_public_response']):
                 transient+=1
                 if main and transient>=2 and len(self.selection.kept)>1:self.selection.drop_oldest_round('repeated_upstream_timeout');transient=0
-                if attempt+1<max_attempts:time.sleep(min(20,2**(attempt+1),self.remaining()));continue
-            raise RuntimeError('API request failed: '+str(status)+' '+(error or str(transport_error))[:500])
+                if attempt+1<max_attempts:
+                    wait=max(2**(attempt+1),self.cfg.get('rate_limit_backoff_seconds',0))if status==429 else min(20,2**(attempt+1))
+                    time.sleep(min(wait,self.remaining()));continue
+            raise RuntimeError(('API request failed: '+str(status)+' '+(error or str(transport_error))[:500]).replace(self.key,'[redacted]'))
         raise RuntimeError('API retry budget exhausted')
 
 class Proxy:
@@ -213,7 +328,11 @@ class Proxy:
                 path=urllib.parse.urlparse(self.path).path
                 if 'v1beta'in path:self.send_response(200);self.send_header('Content-Length','2');self.end_headers();self.wfile.write(b'{}');return
                 if path not in('/v1/messages','/v1/chat/completions','/v1/responses'):self.send_error(404);return
-                incoming=json.loads(self.rfile.read(int(self.headers['Content-Length'])));main=harness!='agy'or bool(incoming.get('tools'));stream=bool(incoming.get('stream'))
+                incoming=json.loads(self.rfile.read(int(self.headers['Content-Length'])))
+                users=[m for m in incoming.get('messages',[])if m.get('role')=='user']
+                latest_user=json.dumps(users[-1].get('content',''),ensure_ascii=False)if users else''
+                planning_tag='MAZE_PLANNING_REQUEST '+str(transport.round)+'/'
+                main=harness!='agy'or(not agy_title_request(incoming)and(bool(incoming.get('tools'))or planning_tag in latest_user));stream=bool(incoming.get('stream'))
                 done=threading.Event();write_lock=threading.Lock()
                 if stream:
                     self.send_response(200);self.send_header('Content-Type','text/event-stream');self.send_header('Connection','close');self.end_headers();self.close_connection=True
@@ -226,12 +345,15 @@ class Proxy:
                     threading.Thread(target=heartbeat,daemon=True).start()
                 try:
                     status,data,meta=transport.request(incoming,path,main,dict(self.headers))
+                    if stream and path=='/v1/chat/completions'and meta.get('closed_json_stream_recovery'):data=close_chat_stream(data)
+                    if stream and path=='/v1/messages'and not meta['is_stream']:data=message_sse(data)
                     if not stream:self.send_response(status);self.send_header('Content-Type','application/json');self.send_header('Content-Length',str(len(data)));self.end_headers()
                     with write_lock:self.wfile.write(data);self.wfile.flush()
                 except Exception as exc:
                     msg=str(exc).replace(transport.key,'[redacted]')
+                    dump(transport.case/'proxy-last-error.json',{'type':type(exc).__name__,'message':msg,'round':transport.round,'main_inference':main,'path':path,'at':time.time()})
                     if stream:
-                        with write_lock:self.wfile.write(('data: '+json.dumps({'error':{'message':msg,'type':'upstream_error'}})+'\n\ndata: [DONE]\n\n').encode());self.wfile.flush()
+                        with write_lock:self.wfile.write(('data: '+json.dumps({'error':{'message':msg,'type':'upstream_error','code':502}})+'\n\ndata: [DONE]\n\n').encode());self.wfile.flush()
                     else:self.send_error(502,msg[:400])
                 finally:done.set()
         self.server=http.server.ThreadingHTTPServer(('127.0.0.1',0),Handler)

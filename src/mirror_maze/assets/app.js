@@ -21,6 +21,7 @@ function update(){
   $('action-count').textContent=s.actionCount;$('move-count').textContent=s.moves;$('collision-count').textContent=s.collisions;
   $('heading-label').textContent=degree+'°';$('heading-arrow').style.transform=`rotate(${degree+90}deg)`;
   $('scene-label').textContent=TOPOLOGIES[topology].name+' grid · side '+maze.sideLength+' · '+maze.cells.length+' cells';
+  [...$('size').options].forEach((option,i)=>option.textContent=['Easy','Medium','Hard'][i]+' · side '+TOPOLOGIES[topology].dimensions[i]);
   $('map-meta').textContent=`${maze.outerShape==='square'?'Square outline':'Hexagon outline'} · side ${maze.sideLength} · ${maze.cells.length} cells`;
   $('view-tag').textContent=settings().mirror?`${settings().bounces} mirror bounces`:'Matte walls · control mode';
   $('left-degrees').textContent=$('right-degrees').textContent=(360/maze.config.headings)+'°';

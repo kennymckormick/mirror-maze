@@ -63,7 +63,10 @@
     {
       "model_key": "gemini",
       "model_label": "gemini-4-argon",
-      "source_alias": "MC-ModelHub-Gemini-4-Argon",
+      "source_alias": "SG-Cursor-gemini-4-argon-medium",
+      "isolate_upstream_session": true,
+      "recover_closed_json_streams": true,
+      "response_completion_policy": "provider_terminal_or_closed_json_at_eof_v1",
       "harness": "agy",
       "api_protocol": "chat",
       "effort": "medium",

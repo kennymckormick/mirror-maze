@@ -1,10 +1,11 @@
 export const VERSION = '0.2.0';
 export const TAU = Math.PI * 2;
 export const CELL_SPACING = 2.6;
+export const DIFFICULTY_SCHEDULE = 'balanced-v1';
 export const TOPOLOGIES = {
   square: { name: 'Square', sides: 4, headings: 4, base: 0, dimensions: [7, 11, 15] },
   triangle: { name: 'Equilateral triangle', sides: 3, headings: 6, base: Math.PI / 6, dimensions: [7, 11, 15] },
-  hex: { name: 'Regular hexagon', sides: 6, headings: 6, base: Math.PI / 6, dimensions: [7, 11, 15] },
+  hex: { name: 'Regular hexagon', sides: 6, headings: 6, base: Math.PI / 6, dimensions: [5, 7, 9] },
 };
 export function randomFor(seed) {
   let h = 2166136261;

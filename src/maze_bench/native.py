@@ -25,6 +25,7 @@ def command(cfg,case,broker):
  elif h=='codex':
   env['MAZE_BROKER_TOKEN']='local-maze-broker'
   overrides={'model_provider':'maze_eval','web_search':'disabled','features.shell_tool':False,'features.unified_exec':False,'features.view_image':False,'features.multi_agent':False,'features.image_generation':False,'features.code_mode':False,'project_doc_max_bytes':0,'model_providers.maze_eval.name':'Maze evaluation broker','model_providers.maze_eval.base_url':broker.base+'/v1','model_providers.maze_eval.env_key':'MAZE_BROKER_TOKEN','model_providers.maze_eval.wire_api':'responses','model_providers.maze_eval.request_max_retries':1,'model_providers.maze_eval.stream_max_retries':0,'mcp_servers.maze.command':str(PYTHON),'mcp_servers.maze.args':[str(ROOT/('observe_server.py' if cfg.get('observation_only') else 'mcp_maze.py')),str(case)],'mcp_servers.maze.tool_timeout_sec':3600,'mcp_servers.maze.default_tools_approval_mode':'approve','mcp_servers.maze.tools.perform.output_token_limit':200000}
+  overrides['model_providers.maze_eval.stream_idle_timeout_ms']=int(cfg.get('planning_timeout',3600)*1000)
   args=[str(cfg.get('harness_executable') or shutil.which('codex') or 'codex'),'exec','--ignore-user-config','--skip-git-repo-check','--ephemeral','--json','--sandbox','read-only','-m',cfg['model_label']]
   for k,v in overrides.items():args+=['-c',k+'='+json.dumps(v,ensure_ascii=False)]
   if cfg.get('direct_observations'):
@@ -50,11 +51,12 @@ def command(cfg,case,broker):
 
 class Native:
  def __init__(self,cfg,case,broker):
-  self.cfg,self.case,self.broker=cfg,case,broker;args,self.env,self.cwd=command(cfg,case,broker);self.args=args;self.thread_id=None;self.process=None;self.single_agy=cfg['harness']=='agy';self.events=queue.Queue();self.stderr=(case/'stderr.log').open('a');self.raw=gzip.open(case/'native.jsonl.gz','at',encoding='utf-8');self.turns=[]
+  self.cfg,self.case,self.broker=cfg,case,broker;args,self.env,self.cwd=command(cfg,case,broker);self.args=args;self.thread_id=None;self.process=None;self.single_agy=cfg['harness']=='agy';self.events=queue.Queue();self.stderr=(case/'stderr.log').open('a');self.raw_lock=threading.RLock();self.raw=gzip.open(case/'native.jsonl.gz','at',encoding='utf-8');self.turns=[]
   if cfg['harness']=='claude':
    self.args=args[:-2]+['--input-format','stream-json'];
    if cfg.get('_resume_transcript'):
     self.args=[a for a in self.args if a!='--no-session-persistence']+['--resume',cfg['_resume_transcript']];self.args=[a.replace('mcp__maze__observe,mcp__maze__perform','mcp__maze__observe') for a in self.args]
+    if cfg.get('_resume_session_at'):self.args+=['--resume-session-at',cfg['_resume_session_at']]
   elif cfg['harness']=='agy':
    self.args=[args[0],*args[3:]]
    self.thread_id=cfg.get('_resume_conversation')
@@ -66,11 +68,13 @@ class Native:
   def read():
    try:
     for line in self.process.stdout:
-     self.raw.write(line);self.raw.flush()
+     with self.raw_lock:self.raw.write(line);self.raw.flush()
      try:self.events.put(json.loads(line))
      except:pass
    finally:self.events.put(None)
   self.reader=threading.Thread(target=read,daemon=True);self.reader.start()
+ def record_host_event(self,event):
+  with self.raw_lock:self.raw.write(json.dumps(event,ensure_ascii=False)+'\n');self.raw.flush()
  def ask(self,text,timeout=3600):
   h=self.cfg['harness'];start=time.monotonic();events=[]
   if h=='codex':
@@ -85,7 +89,9 @@ class Native:
    try:event=self.events.get(timeout=max(.1,timeout-(time.monotonic()-start)))
    except queue.Empty:raise TimeoutError('harness_turn_timeout')
    if event is None:
-    if h=='codex' and final is not None:break
+    if h=='codex' and final is not None:
+     if self.cfg.get('observation_modality')=='text':raise RuntimeError('text_native_missing_turn_commit')
+     break
     if h=='agy' and candidate is not None:
      self.thread_id=candidate.get('conversation_id',self.thread_id)
      if candidate.get('status')!='SUCCESS':

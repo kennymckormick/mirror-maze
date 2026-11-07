@@ -4,14 +4,14 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "mirror-maze-benchmark"
-version = "0.4.0"
+version = "0.4.1"
 description = "Reproducible first-person mirror-maze evaluations with API and optional native harnesses"
 requires-python = ">=3.9"
 dependencies = ["Pillow>=10.1,<13"]
 
 [project.optional-dependencies]
 render = ["playwright>=1.48,<2"]
-video = ["Pillow>=10.1,<13"]
+video = ["Pillow>=10.1,<13", "fonttools>=4", "numpy>=1.24"]
 test = ["pytest>=7,<10"]
 
 [project.scripts]

@@ -1,0 +1,187 @@
+{
+  "schema": "mirror-maze-comparison-media/v1",
+  "input_sha256": "bd592feb07e02b97c207dff4652dafe706ece6b22f60692eba9c468c6ad5f8d4",
+  "renderer_sha256": "f99b267aa61e209baeaad9803010ef2ae66134d8d400fc46883dd208979bbb98",
+  "settings": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 12,
+    "intro_frames": 12,
+    "progress_frames": 204,
+    "hold_frames": 24,
+    "crf": 20
+  },
+  "models": {
+    "gpt": [
+      "GPT-6.1 Sol",
+      "Codex"
+    ],
+    "gemini38": [
+      "Gemini 3.8 Flash",
+      "AGY"
+    ],
+    "deepseek": [
+      "DeepSeek V4.1 Flash",
+      "Claude Code"
+    ],
+    "kimi": [
+      "Kimi K3.1 Pro",
+      "Claude Code"
+    ]
+  },
+  "video_count": 8,
+  "videos": [
+    {
+      "case": "easy-square-MIRROR-042",
+      "path": "videos/easy-square-MIRROR-042.mp4",
+      "bytes": 535948,
+      "sha256": "e5a9f03b132e9b2d56b43662c3bbcdb985f7062d9fc6d446f9af9da1ad120f5a",
+      "planning_axis": [
+        0,
+        200
+      ],
+      "codec": "h264",
+      "pixel_format": "yuv420p",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "fps": 12,
+      "frames": 240,
+      "duration_seconds": 20.0
+    },
+    {
+      "case": "easy-square-MIRROR-043",
+      "path": "videos/easy-square-MIRROR-043.mp4",
+      "bytes": 530120,
+      "sha256": "b5f6fa1f9c5f6bf320ffff7270f8aa2611a12fd644e5bde192def56b45994984",
+      "planning_axis": [
+        0,
+        200
+      ],
+      "codec": "h264",
+      "pixel_format": "yuv420p",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "fps": 12,
+      "frames": 240,
+      "duration_seconds": 20.0
+    },
+    {
+      "case": "easy-hex-MIRROR-042",
+      "path": "videos/easy-hex-MIRROR-042.mp4",
+      "bytes": 943493,
+      "sha256": "f1bc0fca25c4dc9cb66c0406054225d321a1ced84f11692e198826f0789b0602",
+      "planning_axis": [
+        0,
+        200
+      ],
+      "codec": "h264",
+      "pixel_format": "yuv420p",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "fps": 12,
+      "frames": 240,
+      "duration_seconds": 20.0
+    },
+    {
+      "case": "easy-hex-MIRROR-043",
+      "path": "videos/easy-hex-MIRROR-043.mp4",
+      "bytes": 773213,
+      "sha256": "22229131b4b666b7c3e47f56cc7ffa460447700e86b148fbee41051fc146a908",
+      "planning_axis": [
+        0,
+        200
+      ],
+      "codec": "h264",
+      "pixel_format": "yuv420p",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "fps": 12,
+      "frames": 240,
+      "duration_seconds": 20.0
+    },
+    {
+      "case": "medium-square-MIRROR-042",
+      "path": "videos/medium-square-MIRROR-042.mp4",
+      "bytes": 777947,
+      "sha256": "41f2991c955d7785f174943cd0f7eb98fe73f74b246a4386b8eb7aea1c22fda1",
+      "planning_axis": [
+        0,
+        400
+      ],
+      "codec": "h264",
+      "pixel_format": "yuv420p",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "fps": 12,
+      "frames": 240,
+      "duration_seconds": 20.0
+    },
+    {
+      "case": "medium-square-MIRROR-043",
+      "path": "videos/medium-square-MIRROR-043.mp4",
+      "bytes": 777522,
+      "sha256": "fae7a14fdc115f8e717eb752965ca11d591383cdd3b00d6a3f42a650a283bebc",
+      "planning_axis": [
+        0,
+        400
+      ],
+      "codec": "h264",
+      "pixel_format": "yuv420p",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "fps": 12,
+      "frames": 240,
+      "duration_seconds": 20.0
+    },
+    {
+      "case": "medium-hex-MIRROR-042",
+      "path": "videos/medium-hex-MIRROR-042.mp4",
+      "bytes": 1109723,
+      "sha256": "1ea2d5a9ae119ec89931f8e1308f622f842dd023e2dacad3132b6c1325ae319b",
+      "planning_axis": [
+        0,
+        400
+      ],
+      "codec": "h264",
+      "pixel_format": "yuv420p",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "fps": 12,
+      "frames": 240,
+      "duration_seconds": 20.0
+    },
+    {
+      "case": "medium-hex-MIRROR-043",
+      "path": "videos/medium-hex-MIRROR-043.mp4",
+      "bytes": 1040047,
+      "sha256": "e0b620ab17fe91b110cd6f9cec54408d49a46cc675db7564fcdf9b7c44007cae",
+      "planning_axis": [
+        0,
+        400
+      ],
+      "codec": "h264",
+      "pixel_format": "yuv420p",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "fps": 12,
+      "frames": 240,
+      "duration_seconds": 20.0
+    }
+  ]
+}

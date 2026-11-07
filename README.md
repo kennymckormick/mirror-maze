@@ -54,6 +54,10 @@ mirror-maze-bench run --base-url https://YOUR_GATEWAY/v1 \
 
 Edit `examples/custom-model.json` before calling a real model. Set `source_alias` to the exact API model identifier, choose `api_protocol` (`chat`, `responses`, or `messages`), and set the provider-supported request parameters. The base URL may include `/v1`; gateway prefixes are retained. The two-round vision preflight checks both one-image and multi-image delivery using fresh digit cards. A successful HTTP response alone is insufficient: the transcription must match.
 
+Gemini now runs in the official native Cursor CLI with `gemini-4-argon-medium`, using `CURSOR_API_KEY` and the configured network proxy. The current campaign uses six rolling Cursor slots in easy, medium, hard order. Its former AGY/API episodes remain archived with their original provenance; they are not mixed into the native Cursor cohort. Other models retain their recorded routes and four-slot difficulty barriers.
+
+On macOS every task-owned Cursor invocation uses the real user home, `AGENT_CLI_CREDENTIAL_STORE=memory`, `DIRENV_DISABLE=1`, and a process-level block on executing `/usr/bin/security`. The runner verifies installed-client support before launch and refuses unsupported clients. It never resets or modifies user keychains. `PAUSED_FOR_KEYCHAIN.json` is a launch interlock; removing it requires a verified no-keychain authentication check and reconciliation of every interrupted checkpoint. Complete saved native replies are replayed once; sessions and remaining planning budgets are preserved.
+
 `model_label` and `native_model` are machine-facing CLI IDs. `display_name` is only a readable report label. The bundled five-model configuration preserves the exact historical gateway IDs; another service may use different identifiers. Check the pinned sources in [docs/protocol.md](docs/protocol.md).
 
 ## Optional native harness
@@ -69,15 +73,15 @@ Use `--model gpt --harness codex` to select one model/client, or `--harness-exec
 
 The historical reference clients were Codex 0.166.0, Claude Code 2.1.303, and the recorded Antigravity binary. Native CLI flags and defaults can change; preserve the actual binary/version when reproducing the reference configuration. Native clients retain their own system instructions and state-management behavior.
 
-### Astra medium configuration
+### Sol medium configuration
 
 ```bash
 mirror-maze-bench run --base-url https://YOUR_GATEWAY \
-  --config examples/astra-medium-codex.json --mode harness \
-  --out runs/astra-medium --workers 4
+  --config examples/sol-medium-codex.json --mode harness \
+  --out runs/sol-medium --workers 4
 ```
 
-This runs GPT-6 Astra + Codex on square/hexagonal mazes with `MIRROR-042` and `MIRROR-043`: side length 11, 121/331 cells, at most 500 planning decisions. The exact source alias is `Codex-GPT-6-Astra-Relay`. The reference run observed native-default `reasoning.effort=low` and `context=all_turns`; setting a different effort is a different experiment. The medium results are separate from the original easy/200-decision study.
+This runs GPT-6.1 Sol + Codex on square/hexagonal mazes with `MIRROR-042` and `MIRROR-043`: side length 11, 121/331 cells, at most 500 planning decisions. The exact reference source alias is `Codex-GPT-6.1-Sol`. The reference run observed native-default `reasoning.effort=low` and `context=all_turns`; setting a different effort is a different experiment. The medium results are separate from the original easy/200-decision study.
 
 ## Resume and inspect
 
@@ -92,6 +96,17 @@ python -m http.server 8890 --bind 127.0.0.1 --directory review
 The report discovers configured model counts, seeds, topologies, side lengths, and decision caps. It supports a single custom model as well as the bundled comparison. To compare recorded native and API batches, add `--harness-dir runs/native`. An optional `--cache-dir` overrides the cache recorded in case configurations.
 
 Resume replays the saved environment state and continues the original conversation/budget. Finished `success` and `planning_cap` cases are not sampled again. `--resume` expects a clean saved interruption; if a host process was killed between a committed provider reply and its checkpoint, inspect and recover that reply before starting another inference. The recovery utilities under `tools/` preserve original checkpoints and record provenance; they are not a license to restart an unfinished episode with a fresh budget.
+
+For a stopped Codex runner, inspect and reconcile a saved native answer with:
+
+```bash
+python tools/recover_codex_checkpoint.py runs/native/gpt-square-MIRROR-042
+python tools/recover_codex_checkpoint.py runs/native/gpt-square-MIRROR-042 --apply
+```
+
+Use this after the controlling runner has stopped. Inspection makes no model request. Applying
+archives the original logs, replays any completed answer once, then continues the original
+native session with the saved decision cap. Ambiguous histories are rejected for review.
 
 ## Fixed visual protocol
 
@@ -122,7 +137,7 @@ python -m pip wheel --no-deps --wheel-dir dist .
 
 Tests use synthetic local API fixtures and canonical JavaScript replay; they never call a real model. The pipeline fixture's host-generated route is a transport test, not a model score. [docs/api.md](docs/api.md) covers the environment interface; [docs/protocol.md](docs/protocol.md) records the evaluation settings and interpretation.
 
-Optional five-model videos can be generated from the review dataset with `python -m maze_bench.movie`. The synchronized video layout currently expects five models; custom model counts are supported by the interactive report. Videos align decisions, accelerate long sequences, and must not be interpreted as wall-clock inference speed.
+The public-release video generator is retained under `site/media/`, with configuration, a fast preview command, per-case rebuilds and content-hash caching. Swap the evidence assets and captions through configuration to reuse the layout. The release selects four models in a 2-by-2 grid. Videos align decisions, accelerate long sequences, and must not be interpreted as wall-clock inference speed. Full HD encoding takes time; unchanged cached films are reused.
 
 ## Offline protocol stress test
 
@@ -133,3 +148,27 @@ node --expose-gc experiments/random_policy.mjs --out runs/random-policy
 This code-generated blind policy pre-generates the same three-action sequence for each trial across eight fixed mazes. It investigates the unbounded-sequence decision metric. It is not a model or human score and is not token/compute matched. The fixed500-trial protocol and reproducibility notes are in [experiments/README.md](experiments/README.md).
 
 Ideal-observer/controller references assume complete access to the required local scan. Their DFS decision bound is not a verified guarantee under image pruning, which can remove intermediate scan views. Additional sensing/decisions may be needed; these are not human measurements.
+
+### Difficulty stop rule
+
+The active campaign applies a prospective stop rule: if every scheduled trial for a model at one difficulty ends at its planning cap and passes independent replay audit, higher difficulties that have never started are skipped. Easy includes the model's scheduled API controls. Infrastructure interruptions do not count as failures. Higher rolling slots wait until an audited pass is observed or all prerequisite trials finish. Already-started and completed trials are preserved.
+
+Skipped maps retain their planned case IDs and caps but have no fabricated episode or model result. Each skip records the prerequisite result/audit hashes and a separate policy audit. Reports distinguish planned, executed/audited and skipped counts; skipped trials are excluded from measured pass rates. Any all-planned estimate must identify untested outcomes explicitly.
+
+## Text-only native harness runs
+
+Text mode gives the model the grid rules once, then only ordered action outcomes and the invalid-sequence flag. It uses the same canonical maze engine, with no rendering. The host records all accepted primitive actions and verifies terminal results with a replay audit.
+
+```sh
+# Use an existing authorized gateway credential or enter it at the hidden prompt.
+mirror-maze-bench run --mode harness --observation text \
+  --config examples/text-native.json --model kimi \
+  --base-url https://YOUR_GATEWAY --difficulty easy --workers 4 \
+  --out runs/kimi-text-easy
+```
+
+The standard caps are 200 planning rounds for Easy and 400 for Medium. Complete all four Easy trials and their audits before opening Medium. Run Medium when at least one Easy trial succeeded, and record unstarted Medium trials as policy skips if all four audited Easy trials reached the cap. Infrastructure interruptions do not resolve this gate. Use a separate output directory for each difficulty.
+
+For a reconciled interruption, use the same command, output directory, source, and settings with `--resume`. Saved native replies are verified before execution, and the committed action prefix is retained. A case flagged for operator attention requires reconciliation first.
+
+Native AGY uses its existing login and needs `--network-proxy http://YOUR_PROXY:PORT`. Set `--harness-executable` to the pinned client binary when reproducing a recorded run. The text study used Codex 0.166.0, Claude Code 2.1.303, and AGY 1.5.2. A gateway alias in the example must resolve to the documented model snapshot. If you substitute a source or a client, record the change as a separate configuration.
