@@ -2,7 +2,7 @@
 
 **First-person navigation through a maze whose walls are mirrors.**
 
-Private research preview by **Kenny**. The environment is playable in a browser and exposes a Python API. The evaluation runner supports direct model APIs and optional native Codex, Claude Code, and Antigravity clients. No API key is needed to play or use the environment alone.
+The environment is playable in a browser and exposes a Python API. The evaluation runner supports direct model APIs and optional native Codex, Claude Code, and Antigravity clients. No API key is needed to play or use the environment alone.
 
 ## Install and play
 
